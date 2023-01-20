@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import fs from "fs/promises";
-import { marked } from "marked";
+import {parse} from "../../utils/markdown-parser"
 
 interface StaticProps {
   html: string;
@@ -19,8 +19,8 @@ export const getStaticProps: GetStaticProps<any> = async (
   const pid = context?.params?.pid;
   try {
     const file = (await fs.readFile(`src/public/posts/${pid}.md`)).toString();
-    const converted = marked.parse(file)
-    console.log(converted)
+    const converted = await parse(file);
+    console.log(converted);
     return {
       props: {
         html: converted,
@@ -34,7 +34,14 @@ export const getStaticProps: GetStaticProps<any> = async (
 };
 
 export default function Post({ html }: StaticProps) {
-  return <div className="prose mx-auto">
-    <div dangerouslySetInnerHTML={{__html: html}} />
-  </div>;
+  return (
+    <div className="prose dark:prose-invert mx-auto">
+      <pre>
+        <code className="language-bash">
+          echo &quot;hello&quot;
+        </code>
+      </pre>
+      <div dangerouslySetInnerHTML={{ __html: html }} />
+    </div>
+  );
 }
