@@ -17,29 +17,24 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
+    if (localStorage.theme === "dark") {
       document.documentElement.classList.add("dark");
       setDarkMode(true);
     } else {
       document.documentElement.classList.remove("dark");
       setDarkMode(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleMode = useCallback(() => {
-		console.log("Test")
     if (darkMode) {
       document.documentElement.classList.remove("dark");
-			localStorage.removeItem("theme")
+      localStorage.removeItem("theme");
       setDarkMode(false);
     } else {
       document.documentElement.classList.add("dark");
-			localStorage.setItem("theme", "dark")
+      localStorage.setItem("theme", "dark");
       setDarkMode(true);
     }
   }, [darkMode]);
@@ -48,7 +43,9 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     return { mode: darkMode, toggleMode };
   }, [darkMode, toggleMode]);
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
 };
 
 export const useTheme = () => {

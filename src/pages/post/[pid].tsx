@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import fs from "fs/promises";
-import {parse} from "../../utils/markdown-parser"
+import { parse } from "../../utils/markdown-parser";
 
 interface StaticProps {
   html: string;
@@ -37,9 +37,7 @@ export default function Post({ html }: StaticProps) {
   return (
     <div className="prose dark:prose-invert mx-auto">
       <pre>
-        <code className="language-bash">
-          echo &quot;hello&quot;
-        </code>
+        <code className="language-bash">echo &quot;hello&quot;</code>
       </pre>
       <div dangerouslySetInnerHTML={{ __html: html }} />
     </div>
