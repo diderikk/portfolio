@@ -1,26 +1,29 @@
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  GetStaticPaths,
+  GetStaticProps,
+  GetStaticPropsContext,
+} from "next";
 import fs from "fs/promises";
 import { parse } from "../../utils/markdown-parser";
+import { fetchPost } from "../../utils/supabase";
+import { validateBasicAuth } from "../../utils/basic-auth";
 
 interface StaticProps {
   html: string;
 }
 
-export const getStaticPaths: GetStaticPaths<{ pid: string }> = async () => {
-  return {
-    paths: [], //indicates that no page needs be created at build time
-    fallback: "blocking", //indicates the type of fallback
-  };
-};
-
-export const getStaticProps: GetStaticProps<any> = async (
-  context: GetStaticPropsContext
+export const getServerSideProps: GetServerSideProps<any> = async (
+  context: GetServerSidePropsContext
 ) => {
   const pid = context?.params?.pid;
+  const { req, res } = context;
   try {
-    const file = (await fs.readFile(`src/public/posts/${pid}.md`)).toString();
-    const converted = await parse(file);
-    console.log(converted);
+    const { post, private: isPrivate } = await fetchPost(pid as string);
+    console.log(isPrivate);
+    if (isPrivate) await validateBasicAuth(req, res);
+    const converted = await parse(post);
     return {
       props: {
         html: converted,
@@ -36,10 +39,10 @@ export const getStaticProps: GetStaticProps<any> = async (
 export default function Post({ html }: StaticProps) {
   return (
     <div className="prose dark:prose-invert mx-auto">
-      <pre>
-        <code className="language-bash">echo &quot;hello&quot;</code>
-      </pre>
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+      <div
+        className="flex justify-center flex-col items-center"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
     </div>
   );
 }

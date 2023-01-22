@@ -1,20 +1,23 @@
 import { IncomingMessage, ServerResponse } from "http";
 import crypto from "crypto";
-import { fetchAdmin } from "./query";
+import { fetchAdmin } from "./supabase";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export const validateBasicAuth = async (
-  req: IncomingMessage,
-  res: ServerResponse
-) => {
+  req: IncomingMessage | NextApiRequest,
+  res: ServerResponse | NextApiResponse
+): Promise<boolean> => {
   if (!req.headers.authorization) {
     res.setHeader("WWW-Authenticate", 'Basic realm="Protected"');
     res.statusCode = 401;
     res.end("Unauthorized");
+    return false;
   } else {
     const [username, password] = await decode(req.headers.authorization);
     if (username !== process.env.ADMIN1) {
       res.setHeader("WWW-Authenticate", 'Basic realm="Protected"');
       res.statusCode = 401;
+      return false;
     }
     const admin = await fetchAdmin(username);
 
@@ -23,7 +26,9 @@ export const validateBasicAuth = async (
     if (hash !== admin.hash) {
       res.setHeader("WWW-Authenticate", 'Basic realm="Protected"');
       res.statusCode = 401;
+      return false;
     }
+    return true;
   }
 };
 

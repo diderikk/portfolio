@@ -3,5 +3,5 @@ export type StoredPostType = {
   title: string;
   description: string;
   post: string;
-  isPrivate: boolean;
+  private: boolean;
 };
