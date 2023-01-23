@@ -9,13 +9,11 @@ import { addPost, uploadImages } from "../../utils/supabase";
 type Data = {
   id: string;
 };
-// TODO: add BASIC AUTH
-// TODO:
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  if (await validateBasicAuth(req, res)) {
+  if (await validateBasicAuth(req, res, true)) {
     try {
       await runMiddleware(req, res);
 
@@ -26,7 +24,7 @@ export default async function handler(
         const publicUrls = await uploadImages(body.id, body.images);
         const convertedText = await replaceImageUrls(body.post, publicUrls);
 
-        const id = await addPost({
+        const { id } = await addPost({
           id: body.id,
           title: body.title,
           description: body.description,

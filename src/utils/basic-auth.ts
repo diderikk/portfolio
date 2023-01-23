@@ -5,31 +5,42 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export const validateBasicAuth = async (
   req: IncomingMessage | NextApiRequest,
-  res: ServerResponse | NextApiResponse
+  res: ServerResponse | NextApiResponse,
+  isApi: boolean = false
 ): Promise<boolean> => {
-  if (!req.headers.authorization) {
-    res.setHeader("WWW-Authenticate", 'Basic realm="Protected"');
-    res.statusCode = 401;
-    res.end("Unauthorized");
+  try {
+    if (!req.headers.authorization) {
+      res.statusCode = 401
+      res.setHeader("WWW-Authenticate", 'Basic realm="Protected"').end();
+      return false;
+    } else {
+      const [username, password] = await decode(req.headers.authorization);
+      if (
+        (!isApi && username !== process.env.ADMIN1) ||
+        (isApi && username !== process.env.ADMIN2)
+      ) {
+        res.statusCode = 401;
+        res.setHeader("WWW-Authenticate", 'Basic realm="Protected"').end();
+  
+        return false;
+      }
+      const admin = await fetchAdmin(username);
+  
+      const hash = await hashPbkdf2(password, admin.salt);
+  
+      if (hash !== admin.hash) {
+        res.statusCode = 401;
+        res.setHeader("WWW-Authenticate", 'Basic realm="Protected"').end();
+        
+        return false;
+      }
+      return true;
+    }
+  } catch (err) {
+    console.error("Write error")
     return false;
-  } else {
-    const [username, password] = await decode(req.headers.authorization);
-    if (username !== process.env.ADMIN1) {
-      res.setHeader("WWW-Authenticate", 'Basic realm="Protected"');
-      res.statusCode = 401;
-      return false;
-    }
-    const admin = await fetchAdmin(username);
-
-    const hash = await hashPbkdf2(password, admin.salt);
-
-    if (hash !== admin.hash) {
-      res.setHeader("WWW-Authenticate", 'Basic realm="Protected"');
-      res.statusCode = 401;
-      return false;
-    }
-    return true;
   }
+  
 };
 
 export const decode = async (authString: string) => {

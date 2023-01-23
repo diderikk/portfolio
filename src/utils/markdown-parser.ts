@@ -1,5 +1,4 @@
 import { marked } from "marked";
-import { PostImage } from "../types/post-image.type";
 import { PublicUrlType } from "../types/public-url.type";
 
 export const parse = async (markdownString: string): Promise<string> => {

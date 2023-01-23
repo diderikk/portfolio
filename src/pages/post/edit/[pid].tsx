@@ -1,60 +1,74 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useState, useRef } from "react";
-import { validateBasicAuth } from "../../utils/basic-auth";
+import { validateBasicAuth } from "../../../utils/basic-auth";
 import { v4 as uuidv4 } from "uuid";
-import { extractTitleAndDesc } from "../../utils/markdown-parser";
-import { PostType } from "../../types/post.type";
-import { PostImage } from "../../types/post-image.type";
+import { extractTitleAndDesc } from "../../../utils/markdown-parser";
+import { PostType } from "../../../types/post.type";
+import { PostImage } from "../../../types/post-image.type";
 import { useRouter } from "next/router";
-import NotFound from "../../components/not-found";
+import { FetchPost } from "../../../types/fetch-post.type";
+import { fetchPost } from "../../../utils/supabase";
+import NotFound from "../../../components/not-found";
 
-interface Props {
-  authenticated: boolean
-}
-
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context: GetServerSidePropsContext
-) => {
+export const getServerSideProps: GetServerSideProps<
+  FetchPost & { authenticated: boolean; id: string }
+> = async (context: GetServerSidePropsContext) => {
   const { req, res } = context;
 
   const isValidated = await validateBasicAuth(req, res);
 
+  const pid = context?.params?.pid as string;
+
+  const { post, private: isPrivate } = await fetchPost(pid);
+
   return {
     props: {
-      authenticated: isValidated
-    }
+      post,
+      private: isPrivate,
+			authenticated: isValidated,
+			id: pid
+    },
   };
-}
+};
 
-export default function CreatePost({authenticated}: Props) {
-  const router = useRouter()
-  const [markdownText, setMarkdownText] = useState<string>("");
+export default function CreatePost({
+  post,
+  private: isPrivateProp,
+	authenticated, 
+	id
+}: FetchPost & { authenticated: boolean; id: string }) {
+  const router = useRouter();
+  const [markdownText, setMarkdownText] = useState<string>(post);
   const [images, setImages] = useState<PostImage[]>([]);
-  const [isPrivate, setIsPrivate] = useState<boolean>(false);
+  const [isPrivate, setIsPrivate] = useState<boolean>(isPrivateProp);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const [title, description] = await extractTitleAndDesc(markdownText);
     const request: PostType = {
-      id: uuidv4(),
+      id,
       title,
       description,
       post: markdownText,
       private: isPrivate,
       images: images,
     };
-    const id = (await (await fetch("/api/post", {
-      method: "POST",
-      mode: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      body: JSON.stringify(request),
-    })).json()).id as string;
+    const res = (
+      await (
+        await fetch("/api/post", {
+          method: "PUT",
+          mode: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+          body: JSON.stringify(request),
+        })
+      ).json()
+    ).id as string;
 
-    router.push(`/post/${id}`)
+    router.push(`/post/${res}`);
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -97,7 +111,7 @@ export default function CreatePost({authenticated}: Props) {
     });
   };
 
-  if(!authenticated) return <NotFound />
+	if(!authenticated) return <NotFound />
 
   return (
     <div className="flex flex-col items-center justify-evenly min-h-max">
@@ -151,6 +165,7 @@ export default function CreatePost({authenticated}: Props) {
           <input
             type="checkbox"
             value=""
+						checked={isPrivate}
             onChange={handlePrivateChange}
             className="sr-only peer"
           />

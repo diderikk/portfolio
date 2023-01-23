@@ -10,10 +10,10 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export const addPost = async (postType: StoredPostType): Promise<string> => {
+export const addPost = async (postType: StoredPostType): Promise<{id: string}> => {
   const { data, error } = await supabase
     .from("posts")
-    .insert(postType)
+    .upsert(postType)
     .select("id")
     .single();
 
@@ -21,7 +21,7 @@ export const addPost = async (postType: StoredPostType): Promise<string> => {
     throw new Error("Error inserting post");
   }
 
-  return data as unknown as string;
+  return data as unknown as {id: string};
 };
 
 export const fetchPost = async (id: string): Promise<FetchPost> => {
@@ -30,7 +30,6 @@ export const fetchPost = async (id: string): Promise<FetchPost> => {
     .select("post, private")
     .eq("id", id)
     .single();
-  console.log(data);
 
   if (error) {
     throw new Error("Error inserting post");
