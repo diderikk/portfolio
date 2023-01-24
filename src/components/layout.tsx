@@ -5,6 +5,8 @@ import ThemeModeToggler from "./header-button";
 import sunIcon from "../../public/assets/sun.svg";
 import moonIcon from "../../public/assets/moon.svg";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 export default function Layout({ children }: any) {
   const { mode, toggleMode } = useTheme();
@@ -47,6 +49,16 @@ export default function Layout({ children }: any) {
         {/* <Image src={mode ? moonIcon : sunIcon} alt="mode icon" /> */}
       </nav>
       <main className="container mx-auto flex-1">{children}</main>
+      <footer className="flex items-center justify-evenly py-4 border-t-2 px-[10%]">
+        <p className="dark:text-white">Copyright © diderikk 2023</p>
+        <a href="https://github.com/diderikk">
+          <FontAwesomeIcon
+            icon={faGithub}
+            className="w-10 h-10 hover:cursor-pointer"
+            href="https://github.com/diderikk"
+          />
+        </a>
+      </footer>
     </div>
   );
 }

@@ -30,7 +30,7 @@ export const addPost = async (
 export const fetchPost = async (id: string): Promise<FetchPost> => {
   const { data, error } = await supabase
     .from("posts")
-    .select("post, private")
+    .select("post, private, created_at")
     .eq("id", id)
     .single();
 

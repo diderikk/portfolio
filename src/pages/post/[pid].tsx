@@ -3,31 +3,47 @@ import { parse } from "../../utils/markdown-parser";
 import { fetchPost } from "../../utils/supabase";
 import { validateBasicAuth } from "../../utils/basic-auth";
 import NotFound from "../../components/not-found";
+import { getContentTable } from "../../utils/html-reader";
 
-interface StaticProps {
+interface Props {
+  title: string;
+  description: string;
+  createdAt: string;
   html: string;
   authenticated: boolean;
 }
 
-export const getServerSideProps: GetServerSideProps<StaticProps> = async (
+export const getServerSideProps: GetServerSideProps<Props> = async (
   context: GetServerSidePropsContext
 ) => {
   const pid = context?.params?.pid;
   const { req, res } = context;
   try {
-    const { post, private: isPrivate } = await fetchPost(pid as string);
+    const {
+      post,
+      private: isPrivate,
+      created_at,
+    } = await fetchPost(pid as string);
     if (isPrivate) {
       if (!(await validateBasicAuth(req, res)))
         return {
           props: {
+            title: "",
+            description: "",
+            createdAt: "",
             html: "",
             authenticated: false,
           },
         };
     }
-    const converted = await parse(post);
+    const [title, description, converted] = await parse(post);
+    console.log(converted);
+    console.log(getContentTable(converted));
     return {
       props: {
+        title,
+        description,
+        createdAt: new Date(created_at).toUTCString().slice(0, 16),
         html: converted,
         authenticated: true,
       },
@@ -39,12 +55,24 @@ export const getServerSideProps: GetServerSideProps<StaticProps> = async (
   }
 };
 
-export default function Post({ html, authenticated }: StaticProps) {
+export default function Post({
+  html,
+  authenticated,
+  title,
+  description,
+  createdAt,
+}: Props) {
   if (!authenticated) return <NotFound />;
   return (
-    <div className="prose dark:prose-invert mx-auto">
+    <div className="prose dark:prose-invert mx-auto flex justify-center flex-col items-center">
+      <h1 className="mb-0">{title}</h1>
+      <p>{createdAt}</p>
       <div
-        className="flex justify-center flex-col items-center"
+        className="mb-0 border-b-2"
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
+      <div
+        className="flex justify-center flex-col mt-0 min-w-full"
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>

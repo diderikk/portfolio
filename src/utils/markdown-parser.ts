@@ -1,11 +1,35 @@
 import { marked } from "marked";
 import { PublicUrlType } from "../types/public-url.type";
 
-export const parse = async (markdownString: string): Promise<string> => {
+export const parse = async (markdownString: string): Promise<string[]> => {
+  const [title, description] = await extractTitleAndDesc(markdownString);
+  const markdownReplaced = markdownString
+    .replace(title, "")
+    .replace(description, "");
+
+  const parsedDescription = await parseMarkdown(description);
+  const parsedContent = (await parseMarkdown(markdownReplaced)).replace(
+    '<h1 id=""></h1>\n',
+    ""
+  );
+  // return new Promise((res, rej) => {
+  //   marked.parse(markdownReplaced, (err, html) => {
+  //     if (err) rej(err);
+  //     else {
+  //       res([title, description, html]);
+  //     }
+  //   });
+  // });
+  return [title, parsedDescription, parsedContent];
+};
+
+const parseMarkdown = async (markdownString: string): Promise<string> => {
   return new Promise((res, rej) => {
     marked.parse(markdownString, (err, html) => {
       if (err) rej(err);
-      else res(html);
+      else {
+        res(html);
+      }
     });
   });
 };
