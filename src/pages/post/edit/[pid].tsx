@@ -25,8 +25,8 @@ export const getServerSideProps: GetServerSideProps<
     props: {
       post,
       private: isPrivate,
-			authenticated: isValidated,
-			id: pid
+      authenticated: isValidated,
+      id: pid,
     },
   };
 };
@@ -34,8 +34,8 @@ export const getServerSideProps: GetServerSideProps<
 export default function CreatePost({
   post,
   private: isPrivateProp,
-	authenticated, 
-	id
+  authenticated,
+  id,
 }: FetchPost & { authenticated: boolean; id: string }) {
   const router = useRouter();
   const [markdownText, setMarkdownText] = useState<string>(post);
@@ -111,7 +111,7 @@ export default function CreatePost({
     });
   };
 
-	if(!authenticated) return <NotFound />
+  if (!authenticated) return <NotFound />;
 
   return (
     <div className="flex flex-col items-center justify-evenly min-h-max">
@@ -165,7 +165,7 @@ export default function CreatePost({
           <input
             type="checkbox"
             value=""
-						checked={isPrivate}
+            checked={isPrivate}
             onChange={handlePrivateChange}
             className="sr-only peer"
           />

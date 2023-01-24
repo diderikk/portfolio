@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark-dimmed.css";
 import { ThemeProvider } from "../context/theme";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -12,6 +13,10 @@ export default function App({ Component, pageProps }: AppProps) {
   });
   return (
     <ThemeProvider>
+      <Head>
+        <title>{"diderikk's Blog"}</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </Head>
       <Layout>
         <Component {...pageProps} />
       </Layout>

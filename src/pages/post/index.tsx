@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import NotFound from "../../components/not-found";
 
 interface Props {
-  authenticated: boolean
+  authenticated: boolean;
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
@@ -21,13 +21,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   return {
     props: {
-      authenticated: isValidated
-    }
+      authenticated: isValidated,
+    },
   };
-}
+};
 
-export default function CreatePost({authenticated}: Props) {
-  const router = useRouter()
+export default function CreatePost({ authenticated }: Props) {
+  const router = useRouter();
   const [markdownText, setMarkdownText] = useState<string>("");
   const [images, setImages] = useState<PostImage[]>([]);
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
@@ -44,17 +44,21 @@ export default function CreatePost({authenticated}: Props) {
       private: isPrivate,
       images: images,
     };
-    const id = (await (await fetch("/api/post", {
-      method: "POST",
-      mode: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      body: JSON.stringify(request),
-    })).json()).id as string;
+    const id = (
+      await (
+        await fetch("/api/post", {
+          method: "POST",
+          mode: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+          body: JSON.stringify(request),
+        })
+      ).json()
+    ).id as string;
 
-    router.push(`/post/${id}`)
+    router.push(`/post/${id}`);
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -97,7 +101,7 @@ export default function CreatePost({authenticated}: Props) {
     });
   };
 
-  if(!authenticated) return <NotFound />
+  if (!authenticated) return <NotFound />;
 
   return (
     <div className="flex flex-col items-center justify-evenly min-h-max">

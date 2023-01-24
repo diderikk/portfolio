@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useTheme } from "../context/theme";
 import ThemeModeToggler from "./header-button";
-import sunIcon from "../public/assets/sun.svg";
-import moonIcon from "../public/assets/moon.svg";
+import sunIcon from "../../public/assets/sun.svg";
+import moonIcon from "../../public/assets/moon.svg";
 import Image from "next/image";
 
 export default function Layout({ children }: any) {

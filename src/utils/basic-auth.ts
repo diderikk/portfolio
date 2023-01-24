@@ -10,7 +10,7 @@ export const validateBasicAuth = async (
 ): Promise<boolean> => {
   try {
     if (!req.headers.authorization) {
-      res.statusCode = 401
+      res.statusCode = 401;
       res.setHeader("WWW-Authenticate", 'Basic realm="Protected"').end();
       return false;
     } else {
@@ -21,26 +21,25 @@ export const validateBasicAuth = async (
       ) {
         res.statusCode = 401;
         res.setHeader("WWW-Authenticate", 'Basic realm="Protected"').end();
-  
+
         return false;
       }
       const admin = await fetchAdmin(username);
-  
+
       const hash = await hashPbkdf2(password, admin.salt);
-  
+
       if (hash !== admin.hash) {
         res.statusCode = 401;
         res.setHeader("WWW-Authenticate", 'Basic realm="Protected"').end();
-        
+
         return false;
       }
       return true;
     }
   } catch (err) {
-    console.error("Write error")
+    console.error("Write error");
     return false;
   }
-  
 };
 
 export const decode = async (authString: string) => {

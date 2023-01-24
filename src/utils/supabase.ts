@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { AdminType } from "../types/admin.type";
 import { FetchPost } from "../types/fetch-post.type";
+import { ListPost } from "../types/list-post.type";
 import { PostImage } from "../types/post-image.type";
 import { PublicUrlType } from "../types/public-url.type";
 import { StoredPostType } from "../types/stored-post.type";
@@ -10,7 +11,9 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export const addPost = async (postType: StoredPostType): Promise<{id: string}> => {
+export const addPost = async (
+  postType: StoredPostType
+): Promise<{ id: string }> => {
   const { data, error } = await supabase
     .from("posts")
     .upsert(postType)
@@ -21,7 +24,7 @@ export const addPost = async (postType: StoredPostType): Promise<{id: string}> =
     throw new Error("Error inserting post");
   }
 
-  return data as unknown as {id: string};
+  return data as unknown as { id: string };
 };
 
 export const fetchPost = async (id: string): Promise<FetchPost> => {
@@ -36,6 +39,18 @@ export const fetchPost = async (id: string): Promise<FetchPost> => {
   }
 
   return data as unknown as FetchPost;
+};
+
+export const listPosts = async (): Promise<ListPost[]> => {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("id, title, description")
+    .eq("private", false)
+    .order("created_at", { ascending: false });
+
+  if (error) throw new Error("Error fetching posts");
+
+  return data as unknown as ListPost[];
 };
 
 export const addAdmin = async (
