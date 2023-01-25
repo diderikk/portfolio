@@ -13,7 +13,7 @@ interface Props {
   createdAt: string;
   html: string;
   authenticated: boolean;
-  contentTable: ContentTableItem[]
+  contentTable: ContentTableItem[];
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
@@ -36,14 +36,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
             createdAt: "",
             html: "",
             authenticated: false,
-            contentTable: []
+            contentTable: [],
           },
         };
     }
     const [title, description, converted] = await parse(post);
     console.log(converted);
     const contentTable = getContentTable(converted);
-    console.log(contentTable)
+    console.log(contentTable);
     return {
       props: {
         title,
@@ -51,11 +51,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
         createdAt: new Date(created_at).toUTCString().slice(0, 16),
         html: converted,
         authenticated: true,
-        contentTable
+        contentTable,
       },
     };
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return {
       notFound: true,
     };
@@ -68,7 +68,7 @@ export default function Post({
   title,
   description,
   createdAt,
-  contentTable
+  contentTable,
 }: Props) {
   if (!authenticated) return <NotFound />;
   return (
