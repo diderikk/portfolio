@@ -1,19 +1,39 @@
 import React from "react";
+import { ContentTableItem } from "../types/content-item.type";
 
 interface Props {
-  children: React.ReactNode;
-  onClick: () => void;
+  contentTable: ContentTableItem[];
 }
 
-const ContentTable: React.FC<Props> = ({ children, onClick }) => {
+const ContentTable: React.FC<Props> = ({ contentTable }: Props) => {
+  const toHtmlId = (item: string) => {
+    const numberedRegex = /^\d\.\s*/gim;
+    return `#${item
+      .toLowerCase()
+      .replace(numberedRegex, "")
+      .split(" ")
+      .join("-")}`;
+  };
   return (
-    <div
-      className="flex justify-center items-center rounded-lg shadow-xl border dark:border-gray-700 p-4 hover:cursor-pointer hover:opacity-70 select-none"
-      onClick={() => {
-        onClick();
-      }}
-    >
-      {children}
+    <div className="fixed right-40 top-[30%] flex flex-col justify-center items-start rounded-lg border-gray-500 border-2 p-2">
+      {contentTable.map((contentItem) => {
+        if (contentItem.indent)
+          return (
+            <h6 key={contentItem.item} className="my-2 indent-2">
+              {contentItem.item}
+            </h6>
+          );
+        return (
+          <h5 key={contentItem.item} className="my-2">
+            <a
+              className="text-gray-300 no-underline"
+              href={toHtmlId(contentItem.item)}
+            >
+              {contentItem.item}
+            </a>
+          </h5>
+        );
+      })}
     </div>
   );
 };

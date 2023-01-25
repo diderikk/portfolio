@@ -4,6 +4,8 @@ import { fetchPost } from "../../utils/supabase";
 import { validateBasicAuth } from "../../utils/basic-auth";
 import NotFound from "../../components/not-found";
 import { getContentTable } from "../../utils/html-reader";
+import ContentTable from "../../components/content-table";
+import { ContentTableItem } from "../../types/content-item.type";
 
 interface Props {
   title: string;
@@ -11,6 +13,7 @@ interface Props {
   createdAt: string;
   html: string;
   authenticated: boolean;
+  contentTable: ContentTableItem[]
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
@@ -33,12 +36,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
             createdAt: "",
             html: "",
             authenticated: false,
+            contentTable: []
           },
         };
     }
     const [title, description, converted] = await parse(post);
     console.log(converted);
-    console.log(getContentTable(converted));
+    const contentTable = getContentTable(converted);
+    console.log(contentTable)
     return {
       props: {
         title,
@@ -46,9 +51,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
         createdAt: new Date(created_at).toUTCString().slice(0, 16),
         html: converted,
         authenticated: true,
+        contentTable
       },
     };
   } catch (err) {
+    console.log(err)
     return {
       notFound: true,
     };
@@ -61,6 +68,7 @@ export default function Post({
   title,
   description,
   createdAt,
+  contentTable
 }: Props) {
   if (!authenticated) return <NotFound />;
   return (
@@ -75,6 +83,7 @@ export default function Post({
         className="flex justify-center flex-col mt-0 min-w-full"
         dangerouslySetInnerHTML={{ __html: html }}
       />
+      <ContentTable contentTable={contentTable} />
     </div>
   );
 }
