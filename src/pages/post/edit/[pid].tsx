@@ -27,6 +27,7 @@ export const getServerSideProps: GetServerSideProps<
       private: isPrivate,
       authenticated: isValidated,
       id: pid,
+      created_at: ''
     },
   };
 };
