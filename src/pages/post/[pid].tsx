@@ -88,7 +88,7 @@ export default function Post({
   }, []);
   if (!authenticated) return <NotFound />;
   return (
-    <div className="prose dark:prose-invert mx-auto flex justify-center flex-col items-center">
+    <div className="prose dark:prose-invert mx-auto flex justify-center flex-col items-center px-4">
       <h1 className="mb-0">{title}</h1>
       <p>{createdAt}</p>
       <div
