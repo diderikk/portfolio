@@ -15,20 +15,17 @@ const ContentTable: React.FC<Props> = ({ contentTable }: Props) => {
       .join("-")}`;
   };
   return (
-    <div className="fixed right-40 top-[30%] flex flex-col justify-center items-start rounded-lg border-gray-500 border-2 p-2">
+    <div className="fixed right-40 top-[30%] flex flex-col justify-center items-start rounded-lg border-gray-500 border-2 p-2 px-4">
       {contentTable.map((contentItem) => {
         if (contentItem.indent)
           return (
-            <h6 key={contentItem.item} className="my-2 indent-2">
+            <h6 key={contentItem.item} className="my-2 indent-2 text-sm">
               {contentItem.item}
             </h6>
           );
         return (
           <h5 key={contentItem.item} className="my-2">
-            <a
-              className="text-gray-300 no-underline"
-              href={toHtmlId(contentItem.item)}
-            >
+            <a className=" no-underline" href={toHtmlId(contentItem.item)}>
               {contentItem.item}
             </a>
           </h5>

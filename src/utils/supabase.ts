@@ -53,6 +53,12 @@ export const listPosts = async (): Promise<ListPost[]> => {
   return data as unknown as ListPost[];
 };
 
+export const incrementViews = async (id: string): Promise<void> => {
+  const { error } = await supabase.rpc("increment", { row_id: id });
+
+  if (error) throw new Error("Error incrementing views");
+};
+
 export const addAdmin = async (
   username: string,
   hash: string,

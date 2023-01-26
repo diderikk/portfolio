@@ -1,7 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useState, useRef } from "react";
 import { validateBasicAuth } from "../../../utils/basic-auth";
-import { v4 as uuidv4 } from "uuid";
 import { extractTitleAndDesc } from "../../../utils/markdown-parser";
 import { PostType } from "../../../types/post.type";
 import { PostImage } from "../../../types/post-image.type";
@@ -27,7 +26,7 @@ export const getServerSideProps: GetServerSideProps<
       private: isPrivate,
       authenticated: isValidated,
       id: pid,
-      created_at: ''
+      created_at: "",
     },
   };
 };
