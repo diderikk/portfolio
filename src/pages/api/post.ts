@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
+import { PostAccess } from "../../enums/private.enum";
 import { PostType } from "../../types/post.type";
 import { validateBasicAuth } from "../../utils/basic-auth";
 import { replaceImageUrls } from "../../utils/markdown-parser";
@@ -21,15 +22,14 @@ export default async function handler(
         const body: PostType = req.body;
         const status = req.method === "POST" ? 201 : 200;
 
-        const publicUrls = await uploadImages(body.id, body.images);
-        const convertedText = await replaceImageUrls(body.post, publicUrls);
+        const convertedText = await convertText(body);
 
         const { id } = await addPost({
           id: body.id,
           title: body.title,
           description: body.description,
           post: convertedText,
-          private: body.private,
+          access: PostAccess[body.access],
         });
 
         res.status(status).json({
@@ -43,4 +43,12 @@ export default async function handler(
       res.status(500).end();
     }
   }
+}
+
+async function convertText(body: PostType): Promise<string> {
+  if (body.images.length > 0) {
+    const publicUrls = await uploadImages(body.id, body.images);
+    return await replaceImageUrls(body.post, publicUrls);
+  }
+  return body.post;
 }

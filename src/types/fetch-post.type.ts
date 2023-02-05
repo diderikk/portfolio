@@ -1,5 +1,7 @@
+import { PostAccess } from "../enums/private.enum";
+
 export type FetchPost = {
-  private: boolean;
+  access: PostAccess;
   post: string;
   created_at: string;
 };

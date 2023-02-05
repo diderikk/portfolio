@@ -4,7 +4,7 @@ import { FetchPost } from "../types/fetch-post.type";
 import { ListPost } from "../types/list-post.type";
 import { PostImage } from "../types/post-image.type";
 import { PublicUrlType } from "../types/public-url.type";
-import { StoredPostType } from "../types/stored-post.type";
+import { SerializedPostType } from "../types/serialized-post-type.type";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,7 +12,7 @@ const supabase = createClient(
 );
 
 export const addPost = async (
-  postType: StoredPostType
+  postType: SerializedPostType
 ): Promise<{ id: string }> => {
   const { data, error } = await supabase
     .from("posts")
@@ -30,7 +30,7 @@ export const addPost = async (
 export const fetchPost = async (id: string): Promise<FetchPost> => {
   const { data, error } = await supabase
     .from("posts")
-    .select("post, private, created_at")
+    .select("post, access, created_at")
     .eq("id", id)
     .single();
 
@@ -45,7 +45,7 @@ export const listPosts = async (): Promise<ListPost[]> => {
   const { data, error } = await supabase
     .from("posts")
     .select("id, title, description")
-    .eq("private", false)
+    .eq("access", "PUBLIC")
     .order("created_at", { ascending: false });
 
   if (error) throw new Error("Error fetching posts");

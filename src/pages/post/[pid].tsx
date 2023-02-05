@@ -7,6 +7,7 @@ import { getContentTable } from "../../utils/html-reader";
 import ContentTable from "../../components/content-table";
 import { ContentTableItem } from "../../types/content-item.type";
 import { useEffect, useState } from "react";
+import { PostAccess } from "../../enums/private.enum";
 
 interface Props {
   id: string;
@@ -24,12 +25,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const pid = context?.params?.pid! as string;
   const { req, res } = context;
   try {
-    const {
-      post,
-      private: isPrivate,
-      created_at,
-    } = await fetchPost(pid as string);
-    if (isPrivate) {
+    const { post, access, created_at } = await fetchPost(pid as string);
+    if (access === PostAccess.PRIVATE) {
       if (!(await validateBasicAuth(req, res)))
         return {
           props: {
