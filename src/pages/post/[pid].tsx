@@ -93,7 +93,7 @@ export default function Post({
         dangerouslySetInnerHTML={{ __html: description }}
       />
       <div
-        className="flex justify-center flex-col mt-0 min-w-full"
+        className="flex justify-center flex-col mt-0 min-w-[30%] xs:w-[100%] sm:w-[100%] md:w-[120%] lg:w-[150%]"
         dangerouslySetInnerHTML={{ __html: html }}
       />
       {screenWidth > 1300 && <ContentTable contentTable={contentTable} />}
