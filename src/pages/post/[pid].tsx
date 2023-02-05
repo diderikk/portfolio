@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const { req, res } = context;
   try {
     const { post, access, created_at } = await fetchPost(pid as string);
-    if (access === PostAccess.PRIVATE) {
+    if (PostAccess[access as keyof typeof PostAccess] === PostAccess.PRIVATE) {
       if (!(await validateBasicAuth(req, res)))
         return {
           props: {

@@ -3,6 +3,7 @@ import { validateBasicAuth } from "../../../utils/basic-auth";
 import { FetchPost } from "../../../types/fetch-post.type";
 import { fetchPost } from "../../../utils/supabase";
 import { PostForm } from "../../../components/post-form";
+import { PostAccess } from "../../../enums/private.enum";
 
 export const getServerSideProps: GetServerSideProps<
   FetchPost & { authenticated: boolean; id: string }
@@ -13,12 +14,12 @@ export const getServerSideProps: GetServerSideProps<
 
   const pid = context?.params?.pid as string;
 
-  const { post, access: access } = await fetchPost(pid);
-
+  const { post, access } = await fetchPost(pid);
+  const accessEnum = PostAccess[access as keyof typeof PostAccess];
   return {
     props: {
       post,
-      access,
+      access: accessEnum,
       authenticated: isValidated,
       id: pid,
       created_at: "",

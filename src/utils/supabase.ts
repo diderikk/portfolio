@@ -1,6 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
 import { AdminType } from "../types/admin.type";
-import { FetchPost } from "../types/fetch-post.type";
 import { ListPost } from "../types/list-post.type";
 import { PostImage } from "../types/post-image.type";
 import { PublicUrlType } from "../types/public-url.type";
@@ -27,7 +26,9 @@ export const addPost = async (
   return data as unknown as { id: string };
 };
 
-export const fetchPost = async (id: string): Promise<FetchPost> => {
+export const fetchPost = async (
+  id: string
+): Promise<SerializedPostType & { created_at: string }> => {
   const { data, error } = await supabase
     .from("posts")
     .select("post, access, created_at")
@@ -38,7 +39,7 @@ export const fetchPost = async (id: string): Promise<FetchPost> => {
     throw new Error("Error inserting post");
   }
 
-  return data as unknown as FetchPost;
+  return data as unknown as SerializedPostType & { created_at: string };
 };
 
 export const listPosts = async (): Promise<ListPost[]> => {
