@@ -2,7 +2,7 @@ import { ContentTableItem } from "../types/content-item.type";
 
 export const getContentTable = (htmlString: string): ContentTableItem[] => {
   const contentTable: ContentTableItem[] = [];
-  const headerRegex = /^<h(\d)\s*id="[A-Za-z0-9\-]+">([A-Za-z0-9\- ]+)/gim;
+  const headerRegex = /^<h(\d)\s*id="[A-Za-z0-9\-]+">([A-Za-z0-9\-\. ]+)/gim;
   const matches = Array.from(htmlString.matchAll(headerRegex));
 
   matches.forEach(match => {

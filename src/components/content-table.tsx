@@ -15,7 +15,7 @@ const ContentTable: React.FC<Props> = ({ contentTable }: Props) => {
       .join("-")}`;
   };
   return (
-    <div className="fixed right-40 top-[30%] flex flex-col justify-center items-start rounded-lg border-gray-500 border-2 p-2 px-4">
+    <div className="fixed right-32 top-[30%] flex flex-col justify-center items-start rounded-lg border-gray-500 border-2 p-2 px-4">
       {contentTable.map((contentItem) => {
         if (contentItem.indent)
           return (
