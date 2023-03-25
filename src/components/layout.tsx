@@ -5,20 +5,20 @@ import ThemeModeToggler from "./header-button";
 import sunIcon from "../../public/assets/sun.svg";
 import moonIcon from "../../public/assets/moon.svg";
 import Image from "next/image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 export default function Layout({ children }: any) {
   const { mode, toggleMode } = useTheme();
   const router = useRouter();
 
   const handleBackClick = () => {
-    router.push("/");
+    if(router.pathname.includes("post"))
+      router.push("/#blog");
+    else router.back()
   };
 
   return (
     <div className="flex flex-col min-h-screen dark:bg-dark">
-      <nav className="flex px-[10%] justify-around items-center bg-white-100 mb-8 py-2 border-b-2">
+      <nav className="flex px-[10%] justify-around items-center bg-white-100 py-2 border-b-2">
         {router.pathname.includes("post") && (
           <ThemeModeToggler onClick={handleBackClick}>
             <svg
@@ -39,26 +39,25 @@ export default function Layout({ children }: any) {
         <div className="container mx-auto flex justify-center prose dark:prose-invert">
           <h2>diderikk</h2>
         </div>
-        <ThemeModeToggler onClick={toggleMode}>
-          <Image
-            className="m-0"
-            src={mode ? moonIcon : sunIcon}
-            alt="mode icon"
-          />
-        </ThemeModeToggler>
+
+          <ThemeModeToggler onClick={toggleMode}>
+            <Image
+              className="m-0"
+              src={mode ? moonIcon : sunIcon}
+              alt="mode icon"
+            />
+          </ThemeModeToggler>
+          {/* <a href="https://github.com/diderikk" className="flex align-center">
+            <FontAwesomeIcon
+              icon={faGithub}
+              className="w-10 h-10 hover:cursor-pointer"
+              href="https://github.com/diderikk"
+            />
+          </a> */}
+
         {/* <Image src={mode ? moonIcon : sunIcon} alt="mode icon" /> */}
       </nav>
       <main className="container mx-auto flex-1">{children}</main>
-      <footer className="flex items-center justify-evenly py-4 border-t-2 px-[10%]">
-        <p className="dark:text-white">Copyright © diderikk 2023</p>
-        <a href="https://github.com/diderikk">
-          <FontAwesomeIcon
-            icon={faGithub}
-            className="w-10 h-10 hover:cursor-pointer"
-            href="https://github.com/diderikk"
-          />
-        </a>
-      </footer>
     </div>
   );
 }
