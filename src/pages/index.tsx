@@ -26,9 +26,15 @@ export default function Home({ posts }: Props) {
   return (
     <div className="min-w-full flex flex-col items-center prose dark:prose-invert">
       <Parallax className="h-screen w-full">
-        <TypedText title='Hello("World") |> IO.puts()' description="Software developer and Elixir enthusiast" />
+        <TypedText
+          title='Hello("World") |> IO.puts()'
+          description="Software developer and Elixir enthusiast"
+        />
       </Parallax>
-      <Parallax id="blog" className="h-screen min-w-full flex flex-col items-center justify-center prose dark:prose-invert">
+      <Parallax
+        id="blog"
+        className="h-screen min-w-full flex flex-col items-center justify-center prose dark:prose-invert"
+      >
         <h1>Blog</h1>
         {posts.map((post) => {
           return (

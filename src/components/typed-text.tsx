@@ -50,20 +50,26 @@ const TypedText: React.FC<Props> = ({ title, description }) => {
   }, [begin2, description, text2.length]);
 
   return (
-    <div className="h-full w-full text-lg flex flex-col select-none pb-40 items-center justify-center xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl">
-      <div className="flex mb-4">
+    <div className=" h-full w-full text-lg flex flex-col select-none pb-40 items-center justify-center xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl">
+      <div className="flex justify-center mb-4">
         <h2 className="my-0">{text1}</h2>
         {!begin2 && (
-          <h2 className="blinking-cursor my-0 w-12 overflow-x-hidden">{"█"}</h2>
+          <div className="w-0 relative right-0">
+            <h2 className="absolute blinking-cursor my-0 max-w-12 overflow-x-hidden">
+              {"█"}
+            </h2>
+          </div>
         )}
       </div>
       {begin2 && (
         <div className="flex text-md xl:text-3xl md:text-2xl sm:text-xl">
           <h6 className="mt-0">{text2}</h6>
           {!typingDone && (
-            <h5 className="blinking-cursor my-0 w-12 overflow-x-hidden">
-              {"█"}
-            </h5>
+            <div className="w-0 relative right-0">
+              <h6 className="absolute blinking-cursor my-0 max-w-12 overflow-x-hidden">
+                {"█"}
+              </h6>
+            </div>
           )}
         </div>
       )}

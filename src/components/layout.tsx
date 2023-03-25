@@ -11,9 +11,8 @@ export default function Layout({ children }: any) {
   const router = useRouter();
 
   const handleBackClick = () => {
-    if(router.pathname.includes("post"))
-      router.push("/#blog");
-    else router.back()
+    if (router.pathname.includes("post")) router.push("/#blog");
+    else router.back();
   };
 
   return (
@@ -40,14 +39,14 @@ export default function Layout({ children }: any) {
           <h2>diderikk</h2>
         </div>
 
-          <ThemeModeToggler onClick={toggleMode}>
-            <Image
-              className="m-0"
-              src={mode ? moonIcon : sunIcon}
-              alt="mode icon"
-            />
-          </ThemeModeToggler>
-          {/* <a href="https://github.com/diderikk" className="flex align-center">
+        <ThemeModeToggler onClick={toggleMode}>
+          <Image
+            className="m-0"
+            src={mode ? moonIcon : sunIcon}
+            alt="mode icon"
+          />
+        </ThemeModeToggler>
+        {/* <a href="https://github.com/diderikk" className="flex align-center">
             <FontAwesomeIcon
               icon={faGithub}
               className="w-10 h-10 hover:cursor-pointer"
@@ -57,7 +56,9 @@ export default function Layout({ children }: any) {
 
         {/* <Image src={mode ? moonIcon : sunIcon} alt="mode icon" /> */}
       </nav>
-      <main className="container mx-auto flex-1">{children}</main>
+      <main className="container mx-auto flex-1 overflow-x-hidden">
+        {children}
+      </main>
     </div>
   );
 }
