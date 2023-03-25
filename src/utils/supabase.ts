@@ -1,9 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import { AdminType } from "../types/admin.type";
 import { ListPost } from "../types/list-post.type";
-import { PostImage } from "../types/post-image.type";
+import { Image } from "../types/post-image.type";
 import { PublicUrlType } from "../types/public-url.type";
 import { SerializedPostType } from "../types/serialized-post-type.type";
+import { StoredProjectType } from "../types/stored-project.type";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -11,11 +12,11 @@ const supabase = createClient(
 );
 
 export const addPost = async (
-  postType: SerializedPostType
+  post: SerializedPostType
 ): Promise<{ id: string }> => {
   const { data, error } = await supabase
     .from("posts")
-    .upsert(postType)
+    .upsert(post)
     .select("id")
     .single();
 
@@ -25,6 +26,22 @@ export const addPost = async (
 
   return data as unknown as { id: string };
 };
+
+export const addProject = async (
+  project: StoredProjectType
+): Promise<{ id: string }> => {
+  const { data, error } = await supabase
+  .from("projects")
+  .upsert(project)
+  .select("id")
+  .single();
+
+if (error) {
+  throw new Error("Error inserting project");
+}
+
+return data as unknown as { id: string };
+}
 
 export const fetchPost = async (
   id: string
@@ -42,6 +59,22 @@ export const fetchPost = async (
   return data as unknown as SerializedPostType & { created_at: string };
 };
 
+export const fetchProject = async (
+  id: string
+): Promise<StoredProjectType> => {
+  const { data, error } = await supabase
+    .from("projects")
+    .select()
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    throw new Error("Error inserting post");
+  }
+
+  return data as unknown as StoredProjectType;
+};
+
 export const listPosts = async (): Promise<ListPost[]> => {
   const { data, error } = await supabase
     .from("posts")
@@ -52,6 +85,16 @@ export const listPosts = async (): Promise<ListPost[]> => {
   if (error) throw new Error("Error fetching posts");
 
   return data as unknown as ListPost[];
+};
+
+export const listProjects = async (): Promise<StoredProjectType[]> => {
+  const { data, error } = await supabase
+    .from("projects")
+    .select()
+
+  if (error) throw new Error("Error fetching posts");
+
+  return data as unknown as StoredProjectType[];
 };
 
 export const incrementViews = async (id: string): Promise<void> => {
@@ -93,7 +136,7 @@ export const fetchAdmin = async (username: string): Promise<AdminType> => {
 
 export const uploadImages = async (
   id: string,
-  images: PostImage[]
+  images: Image[]
 ): Promise<PublicUrlType[]> => {
   const uploads = images.map(async (image) => {
     return await uploadImage(id, image);
@@ -107,7 +150,7 @@ export const uploadImages = async (
   return Promise.all(publicUrls);
 };
 
-const uploadImage = async (id: string, image: PostImage): Promise<void> => {
+const uploadImage = async (id: string, image: Image): Promise<void> => {
   const data = Buffer.from(image.data, "base64");
   const { error } = await supabase.storage
     .from("images")

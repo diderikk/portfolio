@@ -14,13 +14,14 @@ export default function Layout({ children }: any) {
 
   const handleBackClick = () => {
     if (router.pathname.includes("post")) router.push("/#blog");
+    if (router.pathname.includes("project")) router.push("/#portfolio");
     else router.back();
   };
 
   return (
     <div className="flex flex-col min-h-screen dark:bg-dark">
       <nav className="flex px-[10%] justify-around items-center bg-white-100 py-2 border-b-2">
-        {router.pathname.includes("post") ? (
+        {router.pathname.includes("post") || router.pathname.includes("project") ? (
           <ThemeModeToggler onClick={handleBackClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"

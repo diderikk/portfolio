@@ -1,4 +1,4 @@
-export type PostImage = {
+export type Image = {
   name: string;
   data: string;
   type: string;

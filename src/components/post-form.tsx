@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import { PostAccess } from "../enums/private.enum";
 import { FetchPost } from "../types/fetch-post.type";
-import { PostImage } from "../types/post-image.type";
+import { Image } from "../types/post-image.type";
 import { PostType } from "../types/post.type";
 import { v4 as uuidv4 } from "uuid";
 import { extractTitleAndDesc } from "../utils/markdown-parser";
@@ -13,7 +13,7 @@ export const PostForm: React.FC<
 > = ({ post, authenticated, access: accessProp, id: idProp }) => {
   const router = useRouter();
   const [markdownText, setMarkdownText] = useState<string>(post);
-  const [images, setImages] = useState<PostImage[]>([]);
+  const [images, setImages] = useState<Image[]>([]);
   const [access, setAccess] = useState<PostAccess>(accessProp);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -30,7 +30,7 @@ export const PostForm: React.FC<
     };
     const id = (
       await (
-        await fetch("/api/post", {
+        await fetch("/api/posts", {
           method: idProp === null ? "POST" : "PUT",
           mode: "same-origin",
           headers: {
@@ -42,7 +42,7 @@ export const PostForm: React.FC<
       ).json()
     ).id as string;
 
-    router.push(`/post/${id}`);
+    router.push(`/posts/${id}`);
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -51,7 +51,7 @@ export const PostForm: React.FC<
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const targetFiles: PostImage[] = Array(e.target.files.length).fill(null);
+      const targetFiles: Image[] = Array(e.target.files.length).fill(null);
       for (let i = 0; i < e.target.files.length; i++) {
         const data = await toBase64(e.target.files[i]);
         targetFiles[i] = {
@@ -88,7 +88,7 @@ export const PostForm: React.FC<
   if (!authenticated) return <NotFound />;
 
   return (
-    <div className="flex flex-col items-center justify-evenly min-h-max">
+    <div className="flex flex-col items-center justify-evenly min-h-max mt-8">
       <div className="prose mb-10 mx-auto dark:prose-invert">
         <h1>Add post</h1>
       </div>

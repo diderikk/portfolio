@@ -1,15 +1,21 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PostAccess } from "../../enums/private.enum";
-import { PostType } from "../../types/post.type";
+import { InputProjectType } from "../../types/input-post-type.type";
 import { validateBasicAuth } from "../../utils/basic-auth";
-import { replaceImageUrls } from "../../utils/markdown-parser";
 import runMiddleware from "../../utils/middleware";
-import { addPost, uploadImages } from "../../utils/supabase";
+import { addProject, uploadImages } from "../../utils/supabase";
 
 type Data = {
   id: string;
 };
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '5mb',
+    },
+  },
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
@@ -19,17 +25,17 @@ export default async function handler(
       await runMiddleware(req, res);
 
       if (req.method === "POST" || req.method === "PUT") {
-        const body: PostType = req.body;
+        const body: InputProjectType = req.body;
         const status = req.method === "POST" ? 201 : 200;
 
-        const convertedText = await convertText(body);
+				const uploadedImage = (await uploadImages(body.id, [body.image]))[0]
 
-        const { id } = await addPost({
+        const { id } = await addProject({
           id: body.id,
           title: body.title,
           description: body.description,
-          post: convertedText,
-          access: PostAccess[body.access],
+					tags: body.tags,
+					imageUrl: uploadedImage.url
         });
 
         res.status(status).json({
@@ -43,12 +49,4 @@ export default async function handler(
       res.status(500).end();
     }
   }
-}
-
-async function convertText(body: PostType): Promise<string> {
-  if (body.images.length > 0) {
-    const publicUrls = await uploadImages(body.id, body.images);
-    return await replaceImageUrls(body.post, publicUrls);
-  }
-  return body.post;
 }
