@@ -11,6 +11,9 @@ module.exports = {
       colors: {
         dark: "#212529",
       },
+      maxWidth: {
+        '12': '3rem',
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
