@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import "../styles/typed-text.css";
+import "../styles/swiper.css";
 import type { AppProps } from "next/app";
 import Layout from "../components/layout";
 import { useEffect } from "react";
