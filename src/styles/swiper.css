@@ -2,6 +2,8 @@
 	height: fit-content;
 	padding: 0;
 	cursor: pointer;
+	pointer-events: auto;
+
   /* Center slide text vertically */
   display: flex;
   justify-content: center;
@@ -13,3 +15,7 @@
 	justify-content: center;
   align-items: center;
 }
+
+.swipper-wrapper {
+	pointer-events: none;
+ }
