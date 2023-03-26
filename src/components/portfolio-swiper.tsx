@@ -30,26 +30,25 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
     setCurrentIndex(swiper.realIndex);
   };
 
-	const handleArrowClick = (next: boolean) => {
-		if(next) swiperRef.current!.swiper.slideNext()
-		else swiperRef.current!.swiper.slidePrev()
-	}
+  const handleArrowClick = (next: boolean) => {
+    if (next) swiperRef.current!.swiper.slideNext();
+    else swiperRef.current!.swiper.slidePrev();
+  };
 
   return (
     <div className="flex w-full items-center">
-			<Image
-        className="absolute hidden md:block rotate-180 left-0 m-0 h-14 w-14 p-2 rounded-full bg-slate-400 hover:cursor-pointer z-10"
-				onClick={() => handleArrowClick(false)}
+      <Image
+        className="absolute hidden md:block rotate-180 left-0 m-0 h-14 w-14 p-2 rounded-full bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 hover:bg-gray-300 hover:cursor-pointer z-10"
+        onClick={() => handleArrowClick(false)}
         src={arrowIcon}
         alt="mode icon"
       />
       <Image
-        className="absolute hidden md:block right-0 m-0 h-14 w-14 p-2 rounded-full bg-slate-400 hover:cursor-pointer z-10"
-				onClick={() => handleArrowClick(true)}
+        className="absolute hidden md:block right-0 m-0 h-14 w-14 p-2 rounded-full bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 hover:bg-gray-300 hover:cursor-pointer z-10"
+        onClick={() => handleArrowClick(true)}
         src={arrowIcon}
         alt="mode icon"
       />
-
 
       <Swiper
         ref={swiperRef}
