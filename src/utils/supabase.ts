@@ -78,7 +78,7 @@ export const fetchProject = async (
 export const listPosts = async (): Promise<ListPost[]> => {
   const { data, error } = await supabase
     .from("posts")
-    .select("id, title, description")
+    .select("id, title, description, created_at")
     .eq("access", "PUBLIC")
     .order("created_at", { ascending: false });
 

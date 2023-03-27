@@ -40,13 +40,13 @@ export default function Layout({ children }: any) {
           <a href="https://github.com/diderikk" className="flex align-center">
             <FontAwesomeIcon
               icon={faGithub}
-              className="w-10 h-10 hover:cursor-pointer"
+              className="w-10 h-10 hover:cursor-pointer bg-white rounded-full"
               href="https://github.com/diderikk"
             />
           </a>
         )}
 
-        <div className="container mx-auto flex justify-center prose dark:prose-invert">
+        <div className="mx-auto flex justify-center prose dark:prose-invert">
           <h2>diderikk</h2>
         </div>
 
@@ -57,17 +57,8 @@ export default function Layout({ children }: any) {
             alt="mode icon"
           />
         </ThemeModeToggler>
-        {/* <a href="https://github.com/diderikk" className="flex align-center">
-            <FontAwesomeIcon
-              icon={faGithub}
-              className="w-10 h-10 hover:cursor-pointer"
-              href="https://github.com/diderikk"
-            />
-          </a> */}
-
-        {/* <Image src={mode ? moonIcon : sunIcon} alt="mode icon" /> */}
       </nav>
-      <main className="container mx-auto flex-1 overflow-x-hidden">
+      <main className="flex justify-center flex-1 overflow-x-hidden">
         {children}
       </main>
     </div>

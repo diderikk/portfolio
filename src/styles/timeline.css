@@ -1,0 +1,159 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.timeline {
+  position: relative;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 15px 0;
+}
+
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  background: rgb(109, 107, 107);
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -1px;
+}
+
+.container {
+  padding: 15px 30px;
+  position: relative;
+  background: inherit;
+  width: 50%;
+}
+
+.container.left {
+  left: 0;
+}
+
+.container.right {
+  left: 50%;
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: calc(50% - 8px);
+  right: -8px;
+  background: #ffffff;
+  border: 2px solid rgb(109, 107, 107);
+  border-radius: 16px;
+  z-index: 1;
+}
+
+.container.right::after {
+  left: -8px;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  width: 23px;
+  height: 2px;
+  top: calc(50% - 1px);
+  right: 8px;
+  background: rgb(109, 107, 107);
+  z-index: 1;
+}
+
+.container.right::before {
+	background-color: rgb(109, 107, 107);
+  left: 8px;
+}
+
+.container .date {
+  position: absolute;
+  display: inline-block;
+  top: calc(50% - 8px);
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  z-index: 1;
+}
+
+.container.left .date {
+  right: -115px;
+}
+
+.container.right .date {
+  left: -115px;
+}
+
+.container .content {
+  padding: 20px;
+  position: relative;
+  border-radius: 10px;
+	border: 2px rgb(109, 107, 107) solid;
+	cursor: pointer;
+}
+
+.container .content:hover {
+	border: 2px rgb(65, 62, 62) solid;
+}
+
+.container.right .content {
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.container .content h2 {
+  margin: 0 0 10px 0;
+  font-weight: normal;
+}
+
+.container .content p {
+  margin: 0;
+  line-height: 22px;
+}
+
+@media (max-width: 767.98px) {
+  .timeline::after {
+    left: 90px;
+  }
+
+  .container {
+    width: 100%;
+    padding-left: 120px;
+    padding-right: 30px;
+  }
+
+  .container.right {
+    left: 0%;
+  }
+
+  .container.left::after, 
+  .container.right::after {
+
+    left: 82px;
+  }
+
+  .container.left::before,
+  .container.right::before {
+    left: 98px;
+    border-color: transparent #006E51 transparent transparent;
+  }
+
+  .container.left .date,
+  .container.right .date {
+    right: -10000px;
+    /* left: 1px; */
+  }
+
+  .container.left .content,
+  .container.right .content {
+    padding: 20px;
+    border-radius: 10px;
+  }
+}

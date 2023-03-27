@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import "../styles/typed-text.css";
 import "../styles/swiper.css";
+import "../styles/timeline.css";
 import "swiper/swiper.min.css";
 import "swiper/css";
 import "swiper/css/effect-coverflow";

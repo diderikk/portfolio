@@ -35,7 +35,9 @@ export default async function handler(
           title: body.title,
           description: body.description,
 					tags: body.tags,
-					imageUrl: uploadedImage.url
+					imageUrl: uploadedImage.url,
+          githubUrl: body.githubUrl,
+          websiteUrl: body.websiteUrl
         });
 
         res.status(status).json({

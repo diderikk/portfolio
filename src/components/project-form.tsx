@@ -14,6 +14,8 @@ export const ProjectForm: React.FC<
   const [description, setDescription] = useState<string>(post);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
+  const [githubUrl, setGithubUrl] = useState<string>("");
+  const [websiteUrl, setWebsiteUrl] = useState<string>("");
   const [image, setImage] = useState<Image>();
   const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -26,9 +28,11 @@ export const ProjectForm: React.FC<
       description,
       tags,
       image: ensuredImage,
+      websiteUrl,
+      githubUrl,
     };
 
-		const id = (
+    const id = (
       await (
         await fetch("/api/projects", {
           method: idProp === null ? "POST" : "PUT",
@@ -47,6 +51,14 @@ export const ProjectForm: React.FC<
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+  };
+
+  const handleGithubUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGithubUrl(e.target.value);
+  };
+
+  const handleWebsiteUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWebsiteUrl(e.target.value);
   };
 
   const handleDescriptionChange = (
@@ -101,7 +113,7 @@ export const ProjectForm: React.FC<
 
   return (
     <div className="flex flex-col items-center justify-evenly min-h-max mt-8">
-      <div className="prose mb-10 mx-auto dark:prose-invert">
+      <div className="prose mb-5 mx-auto dark:prose-invert">
         <h1>Add project</h1>
       </div>
       <form
@@ -119,7 +131,7 @@ export const ProjectForm: React.FC<
           value={title}
           onChange={handleTitleChange}
           id="title"
-          className="block p-2.5 mb-10 resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+          className="block p-2.5 mb-5 resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
           placeholder="Project title"
         />
         <label
@@ -134,16 +146,46 @@ export const ProjectForm: React.FC<
           onChange={handleDescriptionChange}
           id="description"
           rows={6}
-          className="block p-2.5 mb-10 resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+          className="block p-2.5 mb-5 resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
           placeholder="Project description"
         ></textarea>
+        <label
+          htmlFor="github"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >
+          Github URL
+        </label>
+        <input
+          required
+          type="url"
+          value={githubUrl}
+          onChange={handleGithubUrlChange}
+          id="github"
+          className="block p-2.5 mb-5 resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+          placeholder="Github URL"
+        />
+        <label
+          htmlFor="website"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >
+          Website URL
+        </label>
+        <input
+          required
+          type="url"
+          value={websiteUrl}
+          onChange={handleWebsiteUrlChange}
+          id="website"
+          className="block p-2.5 mb-5 resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+          placeholder="Website URL"
+        />
         <label
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           htmlFor="user_avatar"
         >
           Project image
         </label>
-        <div className="flex flex-row items-center justify-center mb-10">
+        <div className="flex flex-row items-center justify-center mb-5">
           <input
             onChange={handleImageChange}
             ref={imageInputRef}

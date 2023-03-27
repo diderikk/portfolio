@@ -52,7 +52,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
 
       <Swiper
         ref={swiperRef}
-        spaceBetween={25}
+        spaceBetween={35}
         grabCursor={true}
         effect={"coverflow"}
         speed={1000}
@@ -79,7 +79,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
           >
             <div
               className={
-                "overflow-y-hidden p-4 cursor-pointer border-2 rounded-md border-gray-200 hover:border-gray-300 " +
+                "overflow-y-hidden p-4 cursor-pointer border-2 min-w-[190px] rounded-md border-gray-200 hover:border-gray-300 " +
                 (index !== currentIndex && "opacity-50")
               }
               onClick={() => handleProjectClick(project.id, index)}
