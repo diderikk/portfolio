@@ -69,6 +69,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
         }}
         modules={[EffectCoverflow]}
         className="w-full min-h-[70vh]"
+        style={{display: "flex"}}
         onSlideChange={handleInitialSlideChange}
         onTransitionEnd={handleLateSlideChange}
       >

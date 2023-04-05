@@ -34,7 +34,7 @@ export default function Home({ posts, projects }: Props) {
       </Parallax>
       <Parallax
         id="portfolio"
-        className="min-h-screen max-h-[120vw] min-w-full md:min-w-[90%] md:max-h-[90%] mb-20 px-4 py-20 flex flex-col items-center justify-start prose dark:prose-invert "
+        className="min-h-screen max-h-[120vw] min-w-full md:min-w-[90%] md:max-h-[90%] mb-20 px-4 py-20 flex flex-col items-center justify-evenly prose dark:prose-invert "
       >
         <h1>Portfolio</h1>
         <PortfolioSwiper projects={projects} />
