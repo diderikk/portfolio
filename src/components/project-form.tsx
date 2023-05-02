@@ -34,7 +34,7 @@ export const ProjectForm: React.FC<
 
     const id = (
       await (
-        await fetch("/api/projects", {
+        await fetch("/portfolio/api/projects", {
           method: idProp === null ? "POST" : "PUT",
           mode: "same-origin",
           headers: {
@@ -171,7 +171,6 @@ export const ProjectForm: React.FC<
           Website URL
         </label>
         <input
-          required
           type="url"
           value={websiteUrl}
           onChange={handleWebsiteUrlChange}
@@ -209,7 +208,6 @@ export const ProjectForm: React.FC<
         </label>
         <div id="tags" className="flex flex-row items-center justify-center">
           <input
-            required
             value={tagInput}
             onChange={handleTagChange}
             id="tag"

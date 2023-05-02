@@ -68,7 +68,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
           slideShadows: false,
         }}
         modules={[EffectCoverflow]}
-        className="w-full min-h-[70vh]"
+        className="w-full min-h-[70vh] max-h-[100vh]"
         style={{display: "flex"}}
         onSlideChange={handleInitialSlideChange}
         onTransitionEnd={handleLateSlideChange}
@@ -80,7 +80,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
           >
             <div
               className={
-                "overflow-y-hidden p-4 cursor-pointer border-2 min-w-[190px] rounded-md border-gray-200 hover:border-gray-300 " +
+                "overflow-y-hidden p-4 cursor-pointer border-2 min-w-[190px] h-[77vh] rounded-md border-gray-200 hover:border-gray-300 " +
                 (index !== currentIndex && "opacity-50")
               }
               onClick={() => handleProjectClick(project.id, index)}
@@ -90,7 +90,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
                 alt="Picture of the author"
                 width={600}
                 height={600}
-                className="rounded-md w-32 h-30 mx-auto" // just an example
+                className="rounded-md w-full h-42 mx-auto" // just an example
               />
               <h2 className="mt-0 mb-2 truncate underline">{project.title}</h2>
               <p className="max-h-[25vh] overflow-hidden">
@@ -100,7 +100,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
                 {project.tags.map((tag) => (
                   <div
                     key={tag}
-                    className="flex justify-center items-center px-4 h-8 bg-slate-300 dark:bg-slate-900 rounded-md cursor-pointer"
+                    className="flex text-xs md:text-sm justify-center items-center px-4 h-8 bg-slate-300 dark:bg-slate-900 rounded-md cursor-pointer"
                   >
                     {tag}
                   </div>
