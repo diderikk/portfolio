@@ -1,8 +1,8 @@
 .swiper-slide {
-	height: fit-content;
-	padding: 0;
-	cursor: pointer;
-	pointer-events: auto;
+  height: fit-content;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: auto;
 
   /* Center slide text vertically */
   display: flex;
@@ -11,11 +11,11 @@
 }
 
 .swiper {
-	display: flex;
-	justify-content: center;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .swipper-wrapper {
-	pointer-events: none;
- }
+  pointer-events: none;
+}

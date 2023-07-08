@@ -6,6 +6,7 @@ import { Parallax } from "react-scroll-parallax";
 import { StoredProjectType } from "../types/stored-project.type";
 import PortfolioSwiper from "../components/portfolio-swiper";
 import Timeline from "../components/timeline";
+import { useEffect, useRef } from "react";
 
 interface Props {
   posts: ListPost[];
@@ -24,9 +25,28 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 };
 
 export default function Home({ posts, projects }: Props) {
+  const container = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+      });
+    });
+    if (container.current)
+      container.current
+        .querySelectorAll(".hide")
+        .forEach((el) => observer.observe(el));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => observer.disconnect();
+  }, [container]);
+
   return (
-    <div className="min-w-full flex flex-col items-center prose dark:prose-invert">
-      <Parallax className="h-screen w-full overflow-y-hidden">
+    <div
+      ref={container}
+      className="min-w-full flex flex-col items-center prose dark:prose-invert"
+    >
+      <Parallax className="dark:bg-1 min-h-screen">
         <TypedText
           title="open(Diderik) |> read!()"
           description="Software developer and Elixir enthusiast"
@@ -34,18 +54,26 @@ export default function Home({ posts, projects }: Props) {
       </Parallax>
       <Parallax
         id="portfolio"
-        className="min-h-screen max-h-[120vw] min-w-full md:min-w-[90%] md:max-h-[90%] mb-20 px-4 py-20 flex flex-col items-center justify-evenly prose dark:prose-invert "
+        className="dark:bg-2 min-w-full min-h-[110vh] prose dark:prose-invert"
       >
-        <h1>Portfolio</h1>
-        <PortfolioSwiper projects={projects} />
+        <div className="w-full md:mb-20 px-4 py-20 flex flex-col items-center justify-evenly">
+          <h1 className="mt-10 hide">Portfolio</h1>
+          <div className="hide md:max-h-[90%] flex flex-col items-center justify-evenly">
+            <PortfolioSwiper projects={projects} />
+          </div>
+        </div>
+      </Parallax>
+      <Parallax className="dark:bg-3 w-full h-44">
+        <div />
       </Parallax>
       <Parallax
         id="blog"
-        className="min-h-screen min-w-full flex flex-col items-center justify-center prose dark:prose-invert "
+        className="min-w-full flex flex-col items-center justify-center prose dark:prose-invert mt-10"
       >
-        <h1 className="mb-32">
-          Project Notes</h1>
-        <Timeline posts={posts} />
+        <h1 className="mb-32 hide">Project Notes</h1>
+        <div className="hide">
+          <Timeline posts={posts} />
+        </div>
       </Parallax>
     </div>
   );

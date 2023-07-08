@@ -1,5 +1,6 @@
 import { marked } from "marked";
 import { PublicUrlType } from "../types/public-url.type";
+import moonIcon from "../../public/assets/moon.svg";
 
 export const parse = async (markdownString: string): Promise<string[]> => {
   const [title, description] = await extractTitleAndDesc(markdownString);
@@ -20,7 +21,8 @@ export const parse = async (markdownString: string): Promise<string[]> => {
   //     }
   //   });
   // });
-  return [title, parsedDescription, parsedContent];
+  const newHtml = appendHeaderGif(parsedContent);
+  return [title, parsedDescription, newHtml];
 };
 
 const parseMarkdown = async (markdownString: string): Promise<string> => {
@@ -89,4 +91,22 @@ const extractDescription = (splittedText: string[]): string => {
     else if (titleRegex.test(splittedText[i])) isCapturing = true;
   }
   throw Error("Description not found");
+};
+
+const appendHeaderGif = (htmlString: string): string => {
+  let newHtml = htmlString;
+  const headerRegex = /^<h2\s*id="[A-Za-z0-9\-]+">([A-Za-z0-9\-\. ]+)<\/h2>/gim;
+  const matches = Array.from(htmlString.matchAll(headerRegex));
+
+  matches.forEach((match) => {
+    const newHeader =
+      `<div class="flex items-center w-full" style="margin: 40px 0 10px 0" >\n` +
+      `<h2 style="margin: 0 0 0 0"` +
+      match[0].substring(3) +
+      `<Image class="w-10" src="https://media.tenor.com/kQW_7FMnJzEAAAAi/pepe-pepejam.gif" alt="Pepejam" style="margin: 0 0 0 10px"/>` +
+      `\n</div>`;
+    newHtml = newHtml.replaceAll(match[0], newHeader);
+  });
+
+  return newHtml;
 };

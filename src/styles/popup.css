@@ -1,0 +1,5 @@
+.snackbar-fade {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 12s, opacity 12s linear;
+}

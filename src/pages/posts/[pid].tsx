@@ -85,11 +85,11 @@ export default function Post({
   }, []);
   if (!authenticated) return <NotFound />;
   return (
-    <div className="prose dark:prose-invert mx-auto mt-8 flex justify-center flex-col items-center px-4">
+    <div className="prose dark:prose-invert w-full mx-auto mt-8 flex justify-center flex-col items-center px-4">
       <h1 className="mb-0">{title}</h1>
       <p>{createdAt}</p>
       <div
-        className="mb-0 border-b-2"
+        className="mb-10 border-b-2"
         dangerouslySetInnerHTML={{ __html: description }}
       />
       <div

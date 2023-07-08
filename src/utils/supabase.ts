@@ -31,17 +31,17 @@ export const addProject = async (
   project: StoredProjectType
 ): Promise<{ id: string }> => {
   const { data, error } = await supabase
-  .from("projects")
-  .upsert(project)
-  .select("id")
-  .single();
+    .from("projects")
+    .upsert(project)
+    .select("id")
+    .single();
 
-if (error) {
-  throw new Error("Error inserting project");
-}
+  if (error) {
+    throw new Error("Error inserting project");
+  }
 
-return data as unknown as { id: string };
-}
+  return data as unknown as { id: string };
+};
 
 export const fetchPost = async (
   id: string
@@ -59,9 +59,7 @@ export const fetchPost = async (
   return data as unknown as SerializedPostType & { created_at: string };
 };
 
-export const fetchProject = async (
-  id: string
-): Promise<StoredProjectType> => {
+export const fetchProject = async (id: string): Promise<StoredProjectType> => {
   const { data, error } = await supabase
     .from("projects")
     .select()
@@ -88,9 +86,7 @@ export const listPosts = async (): Promise<ListPost[]> => {
 };
 
 export const listProjects = async (): Promise<StoredProjectType[]> => {
-  const { data, error } = await supabase
-    .from("projects")
-    .select()
+  const { data, error } = await supabase.from("projects").select();
 
   if (error) throw new Error("Error fetching posts");
 

@@ -10,9 +10,10 @@ module.exports = {
       screens: { xs: { max: "640px" } },
       colors: {
         dark: "#212529",
+        org: "#B85C00",
       },
       maxWidth: {
-        '12': '3rem',
+        12: "3rem",
       },
       typography: (theme) => ({
         DEFAULT: {

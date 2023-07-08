@@ -11,10 +11,10 @@ type Data = {
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: '5mb',
+      sizeLimit: "5mb",
     },
   },
-}
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -28,16 +28,16 @@ export default async function handler(
         const body: InputProjectType = req.body;
         const status = req.method === "POST" ? 201 : 200;
 
-				const uploadedImage = (await uploadImages(body.id, [body.image]))[0]
+        const uploadedImage = (await uploadImages(body.id, [body.image]))[0];
 
         const { id } = await addProject({
           id: body.id,
           title: body.title,
           description: body.description,
-					tags: body.tags,
-					imageUrl: uploadedImage.url,
+          tags: body.tags,
+          imageUrl: uploadedImage.url,
           githubUrl: body.githubUrl,
-          websiteUrl: body.websiteUrl
+          websiteUrl: body.websiteUrl,
         });
 
         res.status(status).json({

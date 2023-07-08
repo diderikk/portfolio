@@ -45,4 +45,44 @@ body {
     animation-duration: 1s;
     animation-direction: alternate;
   }
+
+  .bg-1 {
+    width: 100vw;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../../public/assets/front.svg");
+  }
+
+  .bg-2 {
+    width: 100vw;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../../public/assets/mid.svg");
+  }
+
+  .bg-3 {
+    padding-top: 100px;
+    width: 100vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../../public/assets/last.svg");
+  }
+
+  .hide {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(-100%);
+    transition: all 1.5s;
+  }
+
+  .show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+  }
 }

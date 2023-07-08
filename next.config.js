@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   basePath: "/portfolio",
-  output: 'standalone',
+  output: "standalone",
   reactStrictMode: true,
   swcMinify: true,
   images: {
     remotePatterns: [
       {
-        hostname: '*.supabase.co',
+        hostname: "*.supabase.co",
       },
     ],
   },

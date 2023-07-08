@@ -13,7 +13,7 @@
 }
 
 .timeline::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 2px;
   background: rgb(109, 107, 107);
@@ -39,7 +39,7 @@
 }
 
 .container::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 16px;
   height: 16px;
@@ -56,7 +56,7 @@
 }
 
 .container::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 23px;
   height: 2px;
@@ -67,7 +67,7 @@
 }
 
 .container.right::before {
-	background-color: rgb(109, 107, 107);
+  background-color: rgb(109, 107, 107);
   left: 8px;
 }
 
@@ -95,12 +95,12 @@
   padding: 20px;
   position: relative;
   border-radius: 10px;
-	border: 2px rgb(109, 107, 107) solid;
-	cursor: pointer;
+  border: 2px rgb(109, 107, 107) solid;
+  cursor: pointer;
 }
 
 .container .content:hover {
-	border: 2px rgb(65, 62, 62) solid;
+  border: 2px rgb(65, 62, 62) solid;
 }
 
 .container.right .content {
@@ -133,16 +133,15 @@
     left: 0%;
   }
 
-  .container.left::after, 
+  .container.left::after,
   .container.right::after {
-
     left: 82px;
   }
 
   .container.left::before,
   .container.right::before {
     left: 98px;
-    border-color: transparent #006E51 transparent transparent;
+    border-color: transparent #006e51 transparent transparent;
   }
 
   .container.left .date,

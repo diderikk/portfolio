@@ -66,7 +66,12 @@ export default function Project({
       </div>
       <div className="w-full flex justify-center mb-5">
         {githubUrl && (
-          <a href={githubUrl} target="_blank" rel="noreferrer" className="bg-zinc-900 mx-5 hover:bg-zinc-700 flex justify-center items-center text-white font-bold py-2 px-4 mt-10 rounded hover:cursor-pointer no-underline">
+          <a
+            href={githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="bg-zinc-900 mx-5 hover:bg-zinc-700 flex justify-center items-center text-white font-bold py-2 px-4 mt-10 rounded hover:cursor-pointer no-underline"
+          >
             <FontAwesomeIcon
               icon={faGithub}
               className="w-5 h-5 mr-3 hover:cursor-pointer"
@@ -75,7 +80,12 @@ export default function Project({
           </a>
         )}
         {websiteUrl && (
-          <a href={websiteUrl} target="_blank" rel="noreferrer" className="bg-zinc-100 border-2 border-zinc-300 mx-5 hover:bg-zinc-300 flex justify-center items-center text-black font-bold py-2 px-4 mt-10 rounded hover:cursor-pointer no-underline">
+          <a
+            href={websiteUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="bg-zinc-100 border-2 border-zinc-300 mx-5 hover:bg-zinc-300 flex justify-center items-center text-black font-bold py-2 px-4 mt-10 rounded hover:cursor-pointer no-underline"
+          >
             Website
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +97,7 @@ export default function Project({
           </a>
         )}
       </div>
-      <p>{description}</p>
+      <p className="lg:text-lg">{description}</p>
     </div>
   );
 }

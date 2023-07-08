@@ -7,6 +7,7 @@ import moonIcon from "../../public/assets/moon.svg";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import Snackbar from "./snackbar";
 
 export default function Layout({ children }: any) {
   const { mode, toggleMode } = useTheme();
@@ -21,7 +22,8 @@ export default function Layout({ children }: any) {
   return (
     <div className="flex flex-col min-h-screen dark:bg-dark">
       <nav className="flex px-[10%] justify-around items-center bg-white-100 py-2 border-b-2">
-        {router.pathname.includes("post") || router.pathname.includes("project") ? (
+        {router.pathname.includes("post") ||
+        router.pathname.includes("project") ? (
           <ThemeModeToggler onClick={handleBackClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -61,6 +63,7 @@ export default function Layout({ children }: any) {
       <main className="flex justify-center flex-1 overflow-x-hidden">
         {children}
       </main>
+      <Snackbar />
     </div>
   );
 }

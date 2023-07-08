@@ -1,0 +1,10 @@
+.gradient-background {
+  background-image: radial-gradient(
+    circle,
+    #212529,
+    #222528,
+    #232427,
+    #242426,
+    #242425
+  );
+}

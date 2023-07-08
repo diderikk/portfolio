@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useSnackBar } from "./snackbar-context";
 
 type ThemeProviderProps = { children: React.ReactNode };
 
@@ -14,10 +15,11 @@ const ThemeContext = createContext<
 >(undefined);
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const {dispatch} = useSnackBar()
+  const [darkMode, setDarkMode] = useState<boolean>(true);
 
   useEffect(() => {
-    if (localStorage.theme === "dark") {
+    if (localStorage.theme === "dark" || localStorage.theme == undefined) {
       document.documentElement.classList.add("dark");
       setDarkMode(true);
     } else {
@@ -30,14 +32,16 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const toggleMode = useCallback(() => {
     if (darkMode) {
       document.documentElement.classList.remove("dark");
-      localStorage.removeItem("theme");
+      localStorage.setItem("theme", "light");
       setDarkMode(false);
+      dispatch({type: "modeSwitch", mode: false})
     } else {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
       setDarkMode(true);
+      dispatch({type: "modeSwitch", mode: true})
     }
-  }, [darkMode]);
+  }, [darkMode, dispatch]);
 
   const value = useMemo(() => {
     return { mode: darkMode, toggleMode };
