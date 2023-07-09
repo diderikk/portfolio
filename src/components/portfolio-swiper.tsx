@@ -82,22 +82,23 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
       >
         {projects.map((project, index) => (
           <SwiperSlide
-            onClick={() => handleProjectClick(project.id, index)}
             key={project.id}
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              cursor: "grab"
             }}
           >
             <div
               className={
-                "dark:bg-dark bg-white 2xl:max-w-[45%] xl:max-w-[60%] lg:max-w-[70%] max-w-[100%] max-h-[65vh] flex flex-col justify-between items-center p-1 cursor-pointer border-2 min-w-[190px]  rounded-md border-gray-200 hover:border-gray-300 " +
+                "dark:bg-dark bg-white 2xl:max-w-[45%] xl:max-w-[60%] lg:max-w-[70%] max-w-[100%] 2xl:h-[60vh] h-[50vh] flex flex-col justify-between items-center p-1 cursor-pointer border-2 min-w-[190px]  rounded-md border-gray-200 hover:border-gray-300 " +
                 (index !== currentIndex && "opacity-50")
               }
               onClick={() => handleProjectClick(project.id, index)}
             >
-              <div className="overflow-y-hidden">
+              <div 
+              className="overflow-y-hidden">
                 <Image
                   src={project.imageUrl}
                   alt="Picture of the author"

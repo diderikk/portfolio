@@ -29,7 +29,7 @@ const Snackbar: React.FC<Props> = ({}) => {
       id="snackbar"
       onClick={handleClick}
       className={
-        "dark:bg-dark bg-white hover:border-4 cursor-pointer flex justify-center items-center text-xs fixed bottom-10 left-0 right-0 mx-auto h-[8vh] md:w-[45vw] lg:w-[35vw] prose dark:prose-invert rounded-lg border-2"
+        "dark:bg-dark bg-white hover:border-4 cursor-pointer flex justify-center items-center text-xs fixed bottom-10 left-0 right-0 mx-auto h-[8vh] w-[85vw] md:w-[45vw] lg:w-[35vw] prose dark:prose-invert rounded-lg border-2"
       }
     >
       {state.darkMode !== false ? (

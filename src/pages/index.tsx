@@ -46,7 +46,7 @@ export default function Home({ posts, projects }: Props) {
       ref={container}
       className="min-w-full flex flex-col items-center prose dark:prose-invert"
     >
-      <Parallax className="dark:bg-1 min-h-screen">
+      <Parallax className="dark:bg-1 min-h-screen 2xl:min-h-[120vh]">
         <TypedText
           title="open(Diderik) |> read!()"
           description="Software developer and Elixir enthusiast"
@@ -54,16 +54,16 @@ export default function Home({ posts, projects }: Props) {
       </Parallax>
       <Parallax
         id="portfolio"
-        className="dark:bg-2 min-w-full min-h-[110vh] prose dark:prose-invert"
+        className="dark:bg-2 min-w-full 2xl:min-h-[120vh] min-h-[110vh] prose dark:prose-invert flex justify-center"
       >
         <div className="w-full md:mb-20 px-4 py-20 flex flex-col items-center justify-evenly">
-          <h1 className="mt-10 hide">Portfolio</h1>
+          <h1 className="hide">Portfolio</h1>
           <div className="hide md:max-h-[90%] flex flex-col items-center justify-evenly">
             <PortfolioSwiper projects={projects} />
           </div>
         </div>
       </Parallax>
-      <Parallax className="dark:bg-3 w-full h-44">
+      <Parallax className="dark:bg-3 w-full h-56 2xl:h-[28rem]">
         <div />
       </Parallax>
       <Parallax
