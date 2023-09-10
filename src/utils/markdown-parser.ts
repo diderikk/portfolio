@@ -25,9 +25,9 @@ export const parse = async (markdownString: string): Promise<string[]> => {
   return [title, parsedDescription, newHtml];
 };
 
-export const parseGitHub = async (markdownString: string, urlPrefix: string): Promise<string> => {
+export const parseGitHub = async (markdownString: string, urlPrefix: string, rawUrlPrefix: string): Promise<string> => {
   const [title, _description] = await extractTitleAndDesc(markdownString);
-  return (await parseMarkdown(await replaceGitHubImageUrls(markdownString.replace(title, ""), urlPrefix))).replace(
+  return (await parseMarkdown(await replaceGitHubImageUrls(markdownString.replace(title, ""), urlPrefix, rawUrlPrefix))).replace(
     '<h1 id=""></h1>\n',
     ""
   );
@@ -121,16 +121,28 @@ const appendHeaderGif = (htmlString: string): string => {
 
 const replaceGitHubImageUrls = async (
   markdownText: string,
-  urlPrefix: string
+  urlPrefix: string,
+  rawUrlPrefix: string
 ): Promise<string> => {
+  const branch = rawUrlPrefix.includes("master") ? "master" : "main"
   let mdTextCopy = markdownText;
   const mdImageRegex =
     /^!\[[a-zA-z0-9.\-/+ \_]*\]\(([a-zA-z0-9.\-/+ \_\.]*)\)$/gim;
+  const mdUrlRegex = 
+    /\[[a-zA-z0-9.\-/+ \_]*\]\(([a-zA-z0-9.\-/+ \_^.]*)\)/gim;
   const mdImages = markdownText.matchAll(mdImageRegex);
+  const mdUrls = markdownText.matchAll(mdUrlRegex);
   const mdImageUrls = Array.from(mdImages);
   mdImageUrls.forEach((url) => {
-    mdTextCopy = mdTextCopy.replaceAll(url[1], urlPrefix+url[1].slice(2))
+    mdTextCopy = mdTextCopy.replaceAll(url[1], rawUrlPrefix+url[1].slice(2))
   });
-
+  const uniqueUrls: string[] = []
+  Array.from(mdUrls).forEach(url => {
+    if(!url[1].startsWith("./") && !uniqueUrls.includes(url[1])){
+      mdTextCopy = mdTextCopy.replaceAll(url[1], `${urlPrefix}/tree/${branch}/${url[1]}`)
+      uniqueUrls.push(url[1])
+    }
+  })
+  console.log(mdTextCopy)
   return mdTextCopy;
 };

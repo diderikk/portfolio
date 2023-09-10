@@ -34,12 +34,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     let parsedReadme = null;
     if (githubReadme != null) {
       const markdown = await (await fetch(`${githubReadme}README.md`)).text();
-      console.log(`${githubReadme}README.md`)
       parsedReadme = await parseGitHub(
         markdown,
-        githubReadme
+        githubUrl!!,
+        githubReadme,
       );
-      console.log(parsedReadme)
     }
 
     return {
