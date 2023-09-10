@@ -36,7 +36,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
   };
 
   return (
-    <div className="flex w-full items-center">
+    <div className="flex w-full min-h-[120vh] items-center">
       {activeIndex !== 0 && (
         <Image
           className="absolute hidden md:block rotate-180 left-3 m-0 h-14 w-14 p-2 rounded-full bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 hover:bg-gray-300 hover:cursor-pointer z-10"
@@ -53,6 +53,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
           alt="mode icon"
         />
       )}
+
 
       <Swiper
         ref={swiperRef}
@@ -115,7 +116,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
                   </p>
                 </div>
               </div>
-              <div className="max-h-[30vh] shrink-0 p-4 grid grid-flow-row-dense auto-row-max grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 font-bold text-gray-900 dark:text-white">
+              <div className="max-h-[30vh] shrink-0 p-4 grid grid-flow-row-dense auto-row-max grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 font-bold text-gray-900 dark:text-white">
                 {project.tags.map((tag, index) => (
                   <div
                     key={`${tag}-${index}`}

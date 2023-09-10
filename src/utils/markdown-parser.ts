@@ -25,6 +25,14 @@ export const parse = async (markdownString: string): Promise<string[]> => {
   return [title, parsedDescription, newHtml];
 };
 
+export const parseGitHub = async (markdownString: string, urlPrefix: string): Promise<string> => {
+  const [title, _description] = await extractTitleAndDesc(markdownString);
+  return (await parseMarkdown(await replaceGitHubImageUrls(markdownString.replace(title, ""), urlPrefix))).replace(
+    '<h1 id=""></h1>\n',
+    ""
+  );
+}
+
 const parseMarkdown = async (markdownString: string): Promise<string> => {
   return new Promise((res, rej) => {
     marked.parse(markdownString, (err, html) => {
@@ -109,4 +117,20 @@ const appendHeaderGif = (htmlString: string): string => {
   });
 
   return newHtml;
+};
+
+const replaceGitHubImageUrls = async (
+  markdownText: string,
+  urlPrefix: string
+): Promise<string> => {
+  let mdTextCopy = markdownText;
+  const mdImageRegex =
+    /^!\[[a-zA-z0-9.\-/+ \_]*\]\(([a-zA-z0-9.\-/+ \_\.]*)\)$/gim;
+  const mdImages = markdownText.matchAll(mdImageRegex);
+  const mdImageUrls = Array.from(mdImages);
+  mdImageUrls.forEach((url) => {
+    mdTextCopy = mdTextCopy.replaceAll(url[1], urlPrefix+url[1].slice(2))
+  });
+
+  return mdTextCopy;
 };

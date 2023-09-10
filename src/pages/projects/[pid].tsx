@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Image from "next/image";
 import { fetchProject } from "../../utils/supabase";
+import { parseGitHub } from "../../utils/markdown-parser";
 
 interface Props {
   id: string;
@@ -12,6 +13,7 @@ interface Props {
   imageUrl: string;
   websiteUrl: string | null;
   githubUrl: string | null;
+  readme: string | null;
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
@@ -19,8 +21,26 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const pid = context?.params?.pid! as string;
   try {
-    const { title, description, tags, imageUrl, githubUrl, websiteUrl } =
-      await fetchProject(pid as string);
+    const {
+      title,
+      description,
+      tags,
+      imageUrl,
+      githubUrl,
+      websiteUrl,
+      githubReadme,
+    } = await fetchProject(pid as string);
+
+    let parsedReadme = null;
+    if (githubReadme != null) {
+      const markdown = await (await fetch(`${githubReadme}README.md`)).text();
+      console.log(`${githubReadme}README.md`)
+      parsedReadme = await parseGitHub(
+        markdown,
+        githubReadme
+      );
+      console.log(parsedReadme)
+    }
 
     return {
       props: {
@@ -31,6 +51,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
         imageUrl,
         githubUrl,
         websiteUrl,
+        readme: parsedReadme,
       },
     };
   } catch (err) {
@@ -49,9 +70,10 @@ export default function Project({
   imageUrl,
   githubUrl,
   websiteUrl,
+  readme,
 }: Props) {
   return (
-    <div className="prose dark:prose-invert min-w-[80%] mx-auto mt-8 flex justify-center flex-col items-center px-4">
+    <div className="prose dark:prose-invert min-w-[80%] mx-auto mt-8 flex justify-center flex-col items-center px-4 pb-10">
       <Image width={400} height={160} src={imageUrl} alt="project image" />
       <h1 className="mb-7">{title}</h1>
       <div className="grid grid-cols-4 gap-4 mb-5 font-bold text-gray-900 dark:text-white">
@@ -97,7 +119,14 @@ export default function Project({
           </a>
         )}
       </div>
-      <p className="lg:text-lg">{description}</p>
+      {readme != null ? (
+        <div
+          className="prose dark:prose-invert mt-7 flex justify-center flex-col min-w-[30%] xs:min-w-[100%] sm:min-w-[100%] md:min-w-[100%] lg:min-w-[60%]"
+          dangerouslySetInnerHTML={{ __html: readme }}
+        />
+      ) : (
+        <p className="lg:text-lg">{description}</p>
+      )}
     </div>
   );
 }
