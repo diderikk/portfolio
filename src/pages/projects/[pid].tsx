@@ -121,7 +121,7 @@ export default function Project({
       </div>
       {readme != null ? (
         <div
-          className="prose dark:prose-invert mt-7 flex justify-center flex-col min-w-[30%] xs:min-w-[100%] sm:min-w-[100%] md:min-w-[100%] lg:min-w-[60%]"
+          className="lg:text-lg prose dark:prose-invert mt-7 flex justify-center flex-col min-w-[30%] xs:min-w-[100%] sm:min-w-[100%] md:min-w-[100%] lg:min-w-[60%]"
           dangerouslySetInnerHTML={{ __html: readme }}
         />
       ) : (
