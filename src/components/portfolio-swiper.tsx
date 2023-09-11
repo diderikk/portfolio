@@ -54,7 +54,6 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
         />
       )}
 
-
       <Swiper
         ref={swiperRef}
         grabCursor={true}
@@ -88,7 +87,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              cursor: "grab"
+              cursor: "grab",
             }}
           >
             <div
@@ -98,8 +97,7 @@ const PortfolioSwiper: React.FC<Props> = ({ projects }: Props) => {
               }
               onClick={() => handleProjectClick(project.id, index)}
             >
-              <div 
-              className="overflow-y-hidden">
+              <div className="overflow-y-hidden">
                 <Image
                   src={project.imageUrl}
                   alt="Picture of the author"

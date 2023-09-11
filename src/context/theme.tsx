@@ -15,7 +15,7 @@ const ThemeContext = createContext<
 >(undefined);
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const {dispatch} = useSnackBar()
+  const { dispatch } = useSnackBar();
   const [darkMode, setDarkMode] = useState<boolean>(true);
 
   useEffect(() => {
@@ -34,12 +34,12 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
       setDarkMode(false);
-      dispatch({type: "modeSwitch", mode: false})
+      dispatch({ type: "modeSwitch", mode: false });
     } else {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
       setDarkMode(true);
-      dispatch({type: "modeSwitch", mode: true})
+      dispatch({ type: "modeSwitch", mode: true });
     }
   }, [darkMode, dispatch]);
 

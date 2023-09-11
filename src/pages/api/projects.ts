@@ -38,7 +38,7 @@ export default async function handler(
           imageUrl: uploadedImage.url,
           githubUrl: body.githubUrl,
           websiteUrl: body.websiteUrl,
-          githubReadme: null
+          githubReadme: null,
         });
 
         res.status(status).json({

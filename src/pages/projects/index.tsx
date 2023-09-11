@@ -8,7 +8,7 @@ export const getServerSideProps: GetServerSideProps<{
   authenticated: boolean;
 }> = async (context: GetServerSidePropsContext) => {
   const { req, res } = context;
-  console.log(`${req.method} ${req.url}`)
+  console.log(`${req.method} ${req.url}`);
 
   const isValidated = await validateBasicAuth(req, res);
 

@@ -14,7 +14,7 @@ const TypedText: React.FC<Props> = ({ title, description }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      if(text1 == "1") setText1(title[0])
+      if (text1 == "1") setText1(title[0]);
       setBegin1(true);
     }, 2500);
   });
@@ -26,7 +26,7 @@ const TypedText: React.FC<Props> = ({ title, description }) => {
 
       if (title.length === text1.length) {
         setTimeout(() => {
-          if(text2 == "1") setText2(description[0])
+          if (text2 == "1") setText2(description[0]);
           setBegin2(true);
         }, 800);
       }

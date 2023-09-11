@@ -24,8 +24,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const pid = context?.params?.pid! as string;
   const { req, res } = context;
-  console.log(`${req.method} ${req.url}`)
-  
+  console.log(`${req.method} ${req.url}`);
+
   try {
     const { post, access, created_at } = await fetchPost(pid as string);
     if (PostAccess[access as keyof typeof PostAccess] === PostAccess.PRIVATE) {

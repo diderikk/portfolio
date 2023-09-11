@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const pid = context?.params?.pid! as string;
   const { req } = context;
-  console.log(`${req.method} ${req.url}`)
+  console.log(`${req.method} ${req.url}`);
 
   try {
     const {
@@ -37,11 +37,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     let parsedReadme = null;
     if (githubReadme != null) {
       const markdown = await (await fetch(`${githubReadme}README.md`)).text();
-      parsedReadme = await parseGitHub(
-        markdown,
-        githubUrl!!,
-        githubReadme,
-      );
+      parsedReadme = await parseGitHub(markdown, githubUrl!!, githubReadme);
     }
 
     return {

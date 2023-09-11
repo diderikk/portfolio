@@ -3,7 +3,7 @@ import { createContext, useContext, useMemo, useReducer } from "react";
 
 type Action =
   | { type: "loading" }
-  | { type: "modeSwitch", mode: boolean }
+  | { type: "modeSwitch"; mode: boolean }
   | { type: "info"; description?: string }
   | { type: "disabled" };
 type Dispatch = (action: Action) => void;
@@ -12,7 +12,7 @@ type State = {
   fadeOut?: boolean;
   loading: boolean;
   description: string;
-  darkMode: boolean | undefined
+  darkMode: boolean | undefined;
 };
 type SnackBarProviderProps = { children: React.ReactNode };
 
@@ -21,7 +21,7 @@ const initialState = {
   loading: false,
   description: "",
   fadeOut: false,
-  darkMode: undefined
+  darkMode: undefined,
 } as State;
 
 const SnackBarContext = createContext<
@@ -35,7 +35,7 @@ const snackBarReducer = (_state: State, action: Action): State => {
         show: true,
         description: "",
         loading: true,
-        darkMode: undefined
+        darkMode: undefined,
       };
     }
     case "info": {
@@ -44,7 +44,7 @@ const snackBarReducer = (_state: State, action: Action): State => {
         description: action.description!,
         loading: false,
         fadeOut: true,
-        darkMode: undefined
+        darkMode: undefined,
       };
     }
     case "modeSwitch": {
@@ -53,7 +53,7 @@ const snackBarReducer = (_state: State, action: Action): State => {
         description: "",
         loading: false,
         fadeOut: true,
-        darkMode: action.mode
+        darkMode: action.mode,
       };
     }
     case "disabled": {
