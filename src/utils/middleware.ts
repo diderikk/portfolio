@@ -20,6 +20,7 @@ function initMiddleware(req: NextApiRequest, res: NextApiResponse, fn: any) {
 }
 
 async function runMiddleware(req: NextApiRequest, res: NextApiResponse) {
+  console.log(`${req.method} ${req.url}`)
   await initMiddleware(req, res, cors);
 }
 

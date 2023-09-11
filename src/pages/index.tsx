@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { ListPost } from "../types/list-post.type";
 import { listPosts, listProjects } from "../utils/supabase";
 import TypedText from "../components/typed-text";
@@ -13,7 +13,12 @@ interface Props {
   projects: StoredProjectType[];
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context: GetServerSidePropsContext
+) => {
+  const { req } = context;
+  console.log(`${req.method} ${req.url}`);
+
   const posts = await listPosts();
   const projects = await listProjects();
   return {
@@ -32,8 +37,8 @@ export default function Home({ posts, projects }: Props) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          if(entry.target.id == "portfolio-title" && portfolio.current)
-            portfolio.current!!.classList.add("show")
+          if (entry.target.id == "portfolio-title" && portfolio.current)
+            portfolio.current!!.classList.add("show");
           entry.target.classList.add("show");
         }
       });
@@ -62,8 +67,13 @@ export default function Home({ posts, projects }: Props) {
         className="dark:bg-2 min-w-full 2xl:min-h-[120vh] min-h-[110vh] prose dark:prose-invert flex justify-center"
       >
         <div className="w-full md:mb-20 px-4 py-20 flex flex-col items-center justify-evenly">
-          <h1 id="portfolio-title"className="hide">Portfolio</h1>
-          <div ref={portfolio} className="hide md:max-h-[90%] flex flex-col items-center justify-evenly">
+          <h1 id="portfolio-title" className="hide">
+            Portfolio
+          </h1>
+          <div
+            ref={portfolio}
+            className="hide md:max-h-[90%] flex flex-col items-center justify-evenly"
+          >
             <PortfolioSwiper projects={projects} />
           </div>
         </div>

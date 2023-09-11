@@ -20,6 +20,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context: GetServerSidePropsContext
 ) => {
   const pid = context?.params?.pid! as string;
+  const { req } = context;
+  console.log(`${req.method} ${req.url}`)
+
   try {
     const {
       title,
