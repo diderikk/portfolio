@@ -9,7 +9,7 @@ export const getServerSideProps: GetServerSideProps<
   FetchPost & { authenticated: boolean; id: string }
 > = async (context: GetServerSidePropsContext) => {
   const { req, res } = context;
-  console.log(`${req.method} ${req.url}`);
+  console.log(`${req.method} ${req.url} ${JSON.stringify(req.headers)}`);
 
   const isValidated = await validateBasicAuth(req, res);
 

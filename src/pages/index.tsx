@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context: GetServerSidePropsContext
 ) => {
   const { req } = context;
-  console.log(`${req.method} ${req.url}`);
+  console.log(`${req.method} ${req.url} ${JSON.stringify(req.headers)}`);
 
   const posts = await listPosts();
   const projects = await listProjects();
