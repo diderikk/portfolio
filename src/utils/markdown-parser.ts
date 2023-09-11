@@ -143,6 +143,5 @@ const replaceGitHubImageUrls = async (
       uniqueUrls.push(url[1])
     }
   })
-  console.log(mdTextCopy)
   return mdTextCopy;
 };
