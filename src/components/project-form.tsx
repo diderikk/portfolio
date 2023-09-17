@@ -34,7 +34,7 @@ export const ProjectForm: React.FC<
 
     const id = (
       await (
-        await fetch("/portfolio/api/projects", {
+        await fetch("/api/projects", {
           method: idProp === null ? "POST" : "PUT",
           mode: "same-origin",
           headers: {

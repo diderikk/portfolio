@@ -30,7 +30,7 @@ export const PostForm: React.FC<
     };
     const id = (
       await (
-        await fetch("/portfolio/api/posts", {
+        await fetch("/api/posts", {
           method: idProp === null ? "POST" : "PUT",
           mode: "same-origin",
           headers: {

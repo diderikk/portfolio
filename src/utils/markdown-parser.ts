@@ -1,6 +1,5 @@
 import { marked } from "marked";
 import { PublicUrlType } from "../types/public-url.type";
-import moonIcon from "../../public/assets/moon.svg";
 
 export const parse = async (markdownString: string): Promise<string[]> => {
   const [title, description] = await extractTitleAndDesc(markdownString);
