@@ -7,6 +7,7 @@ import { StoredProjectType } from "../types/stored-project.type";
 import PortfolioSwiper from "../components/portfolio-swiper";
 import Timeline from "../components/timeline";
 import { useEffect, useRef } from "react";
+import { parseMarkdown } from "../utils/markdown-parser";
 
 interface Props {
   posts: ListPost[];
@@ -19,7 +20,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const { req } = context;
   console.log(`${req.method} ${req.url} ${JSON.stringify(req.headers)}`);
 
-  const posts = await listPosts();
+  const posts = await Promise.all(
+    (
+      await listPosts()
+    ).map(async (post) => {
+      post.description = await parseMarkdown(post.description);
+      return post;
+    })
+  );
   const projects = await listProjects();
   return {
     props: {

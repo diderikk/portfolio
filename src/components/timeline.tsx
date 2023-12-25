@@ -13,25 +13,28 @@ const Timeline: React.FC<Props> = ({ posts }) => {
 
   return (
     <div className="timeline">
-      {posts.map((post, index) => (
-        <div
-          key={post.id}
-          className={index % 2 === 0 ? "container left" : "container right"}
-        >
-          <div className="date">
-            {new Date(post.created_at).toUTCString().slice(5, 16)}
-          </div>
+      {posts.map((post, index) => {
+        return (
           <div
-            className="content border-zinc-300"
-            onClick={() => handlePostClick(post.id)}
+            key={post.id}
+            className={index % 2 === 0 ? "container left" : "container right"}
           >
-            <h2 className="mb-0 underline">{post.title}</h2>
-            <p className="overflow-y-hidden max-h-[20vh] md:max-h-[40vh]">
-              {post.description.replaceAll("*", "")}
-            </p>
+            <div className="date">
+              {new Date(post.created_at).toUTCString().slice(5, 16)}
+            </div>
+            <div
+              className="content border-zinc-300"
+              onClick={() => handlePostClick(post.id)}
+            >
+              <h2 className="mb-0 underline">{post.title}</h2>
+              <div
+                className="overflow-y-hidden max-h-[20vh] md:max-h-[40vh]"
+                dangerouslySetInnerHTML={{ __html: post.description }}
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

@@ -41,7 +41,9 @@ export const parseGitHub = async (
   ).replace('<h1 id=""></h1>\n', "");
 };
 
-const parseMarkdown = async (markdownString: string): Promise<string> => {
+export const parseMarkdown = async (
+  markdownString: string
+): Promise<string> => {
   return new Promise((res, rej) => {
     marked.parse(markdownString, (err, html) => {
       if (err) rej(err);
