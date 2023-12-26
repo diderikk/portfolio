@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <SnackBarProvider>
         <ThemeProvider>
           <Head>
-            <title>{"diderikk's Blog"}</title>
+            <title>{"diderikk's Portfolio"}</title>
             <link rel="shortcut icon" href="/favicon.ico" />
           </Head>
           <Layout>
